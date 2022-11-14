@@ -1,15 +1,43 @@
 import express from 'express';
 import { verifyToken, signToken } from '../middlewares/auth.js';
+import User from '../models/User.js';
+import bcryptjs from "bcryptjs"
 
 const authRouter = express.Router();
 
-authRouter.post('/signin', (req, res) => {
-    // Check if user exists then return access token
-    res.send({ accessToken: signToken(req.body) });
+authRouter.post('/signin', async (req, res) => {
+    try {
+        const result = await User.findOne({
+            where: {
+                email: req.body.email
+            } 
+        });
+        if (!result) {
+            res.status(401).json(new Error("Error", "Email or password incorrect"));
+            return;
+        }
+        if (!(await bcryptjs.compare(req.body.password, result.password))) {
+            res.status(401).json(new Error("Error", "Email or password incorrect"));
+            return;
+        }
+        console.log(result)
+        res.json({ user: result, accessToken: await signToken(result) });
+    } catch (error) {
+        res.sendStatus(500);
+        throw error;
+    }
 });
 
-authRouter.post('/signup', (req, res) => {
-    // create User
+authRouter.post('/signup', async (req, res) => {
+    try {
+        const result = await User.create({
+            ...req.body,
+        });
+        res.status(201).json(result);
+    } catch (error) {
+        console.error(error)
+        res.sendStatus(400);
+    }
 });
 
 authRouter.get('/life', [verifyToken], (req, res) => {

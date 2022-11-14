@@ -7,7 +7,7 @@ const { json } = bodyParser;
 import authRouter from './routes/auth.js';
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.API_PORT || 3000;
 
 app.use(cors());
 app.use(json());
