@@ -1,5 +1,6 @@
 import express from 'express';
 import { verifyToken, signToken } from '../middlewares/auth.js';
+import isAdmin from '../middlewares/isAdmin.js';
 import User from '../models/User.js';
 import bcryptjs from "bcryptjs"
 
@@ -20,7 +21,6 @@ authRouter.post('/signin', async (req, res) => {
             res.status(401).json(new Error("Error", "Email or password incorrect"));
             return;
         }
-        console.log(result)
         res.json({ user: result, accessToken: await signToken(result) });
     } catch (error) {
         res.sendStatus(500);
@@ -35,12 +35,11 @@ authRouter.post('/signup', async (req, res) => {
         });
         res.status(201).json(result);
     } catch (error) {
-        console.error(error)
         res.sendStatus(400);
     }
 });
 
-authRouter.get('/life', [verifyToken], (req, res) => {
+authRouter.get('/life', [isAdmin, verifyToken], (req, res) => {
     res.send({ message: 'YEAH BOY' });
 });
 

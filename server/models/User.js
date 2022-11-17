@@ -35,6 +35,11 @@ User.init(
             defaultValue: false,
             allowNull: false,
         },
+        isAvailable: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+            allowNull: false,
+        },
         username: {
             type: DataTypes.STRING,
             allowNull: false,
