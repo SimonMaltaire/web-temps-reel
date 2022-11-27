@@ -1,0 +1,64 @@
+version: '3.6'
+
+services:
+  server:
+    image: "node:16"
+    build:
+      context: ./server
+      target: ${NODE_ENV}
+      dockerfile: Dockerfile
+    ports:
+      - ${API_PORT}:${API_PORT}
+    user: "node"
+    entrypoint: ["npm", "run", "server"]
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    volumes:
+      - ./server:/home/node/app
+      - server_modules:/home/node/app/node_modules
+    depends_on:
+      - db
+
+  vite-front:
+    container_name: vite-front
+    build:
+      context: ./front
+      target: ${NODE_ENV}
+      dockerfile: Dockerfile
+    entrypoint: ["npm", "run", "${NODE_ENV}"]
+    stdin_open: true
+    tty: true
+    env_file:
+      - .env
+    ports:
+      - ${VITE_PORT}:${VITE_PORT}
+    volumes:
+      - ./front:/usr/src/app
+      - vite-front_modules:/usr/src/app/node_modules
+
+  db:
+    image: postgres:14.5
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/postgres:/data/postgres
+    env_file:
+      - .env
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    ports:
+      - "8080:80"
+    volumes:
+      - ./data/pgadmin:/root/.pgadmin
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+volumes:
+  server_modules:
+  vite-front_modules:
