@@ -5,6 +5,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 const { json } = bodyParser;
 import authRouter from './routes/auth.js';
+import './ws-server.js'
 
 const app = express();
 const port = process.env.API_PORT || 3000;
