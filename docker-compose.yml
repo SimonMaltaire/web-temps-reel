@@ -7,36 +7,36 @@ services:
       context: ./server
       target: ${NODE_ENV}
       dockerfile: Dockerfile
-    ports:
-      - ${API_PORT}:${API_PORT}
     user: "node"
-    entrypoint: ["npm", "run", "server"]
+    stdin_open: true
+    tty: true
+    #entrypoint: ["npm", "run", "server"]
     env_file:
       - .env
+    ports:
+      - ${API_PORT}:${API_PORT}
     environment:
       - NODE_ENV=${NODE_ENV}
     volumes:
-      - ./server:/home/node/app
-      - server_modules:/home/node/app/node_modules
+      - ./server:/usr/src/app
     depends_on:
       - db
 
   vite-front:
-    container_name: vite-front
     build:
       context: ./front
       target: ${NODE_ENV}
       dockerfile: Dockerfile
-    entrypoint: ["npm", "run", "${NODE_ENV}"]
+    user: "node"
     stdin_open: true
     tty: true
+    #entrypoint: ["npm", "run", "${NODE_ENV}"]
     env_file:
       - .env
     ports:
       - ${VITE_PORT}:${VITE_PORT}
     volumes:
       - ./front:/usr/src/app
-      - vite-front_modules:/usr/src/app/node_modules
 
   db:
     image: postgres:14.5
