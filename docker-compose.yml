@@ -58,7 +58,3 @@ services:
       - .env
     depends_on:
       - db
-
-volumes:
-  server_modules:
-  vite-front_modules:
