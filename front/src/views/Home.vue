@@ -1,5 +1,5 @@
 <template>
     <div>
-        HOME !!!! EHO
+        HOME !!! EHO
     </div>
 </template>

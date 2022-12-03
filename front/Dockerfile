@@ -2,7 +2,7 @@
 # BUILD FOR LOCAL DEVELOPMENT
 ###################
 
-FROM node:16-alpine As dev
+FROM node:18-alpine As dev
 
 WORKDIR /usr/src/app
 
