@@ -1,13 +1,10 @@
 <template>
-  <div>
-    s
-  </div>
+    <div>
+
+    </div>
 </template>
 
-<script>
-export default {
-  name: "Register"
-}
+<script setup>
 </script>
 
 <style scoped>

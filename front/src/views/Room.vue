@@ -1,11 +1,10 @@
 <template>
-
+    <div>
+        sss
+    </div>
 </template>
 
-<script>
-export default {
-  name: "FooterLayout"
-}
+<script setup>
 </script>
 
 <style scoped>

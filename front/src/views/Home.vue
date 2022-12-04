@@ -1,5 +1,9 @@
 <template>
     <div>
-        HOME !!! EHO
+        home
     </div>
 </template>
+
+<script setup>
+
+</script>

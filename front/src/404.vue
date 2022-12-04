@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: "HeaderLayout"
+  name: "404"
 }
 </script>
 

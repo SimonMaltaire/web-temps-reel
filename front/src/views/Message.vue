@@ -1,13 +1,10 @@
 <template>
-  <div>
-    s
-  </div>
+    <div>
+        sss
+    </div>
 </template>
 
-<script>
-export default {
-  name: "Message"
-}
+<script setup>
 </script>
 
 <style scoped>
