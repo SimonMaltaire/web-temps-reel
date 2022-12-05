@@ -1,7 +1,7 @@
 <template>
-    <app-header>
-        <router-view />
-    </app-header>
+    <v-container class="bg-green-100">
+        <router-view class="w-full h-full bg-amber"/>
+    </v-container>
 </template>
 
 <script setup>

@@ -7,22 +7,16 @@ import Message from "../views/Message.vue";
 import Room from "../views/Room.vue";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
+import NotFound from "../404.vue";
 
 const routes = [
     {
         path: '/session',
         component: SessionLayout,
         children: [
-            {
-                path: '/login',
-                name: 'login',
-                component: Login
-            },
-            {
-                path: '/register',
-                name: 'register',
-                component: Register,
-            }
+            {path: '', redirect: '/session/login'},
+            { path: 'login', name: 'login', component: Login },
+            { path: 'register', name: 'register', component: Register },
         ]
     },
     {
@@ -52,14 +46,8 @@ const routes = [
             }
         ]
     },
-    {
-        path: '/Login',
-        component: Login
-    },
-    {
-        path: '/Register',
-        component: Register
-    },
+    { path: '/404', name: 'not_found', component: NotFound },
+    { path: '/:catchAll(.*)', redirect: '/404' }
 ]
 
 const router = createRouter({
