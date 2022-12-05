@@ -1,14 +1,15 @@
 import express from "express";
-import { User, Topic } from "../models";
+import User from "../models/User.js";
+import Topic from "../models/Topic.js";
 
 const router = express.Router();
 
 // USER
 
 // POST user to topic
-router.post('/:userId', async (req, res) => {
+router.post('/:userId/topics/:topicId', async (req, res) => {
     const user = await User.findByPk(req.params.userId);
-    const topic = await Topic.findByPk(req.params.id);
+    const topic = await Topic.findByPk(req.params.topicId);
     if (topic) {
         if (user) {
             await topic.addUser(user);
@@ -35,11 +36,15 @@ router.get('/:userId', async (req, res) => {
 });
 
 // GET user's topic
-router.get('/:userId/topic/:topicId', async (req, res) => {
+router.get('/:userId/topics/:topicId', async (req, res) => {
     const user = await User.findByPk(req.params.userId);
-    const topic = await Topic.findByPk(req.params.id);
+    const topic = await Topic.findByPk(req.params.topicId);
     if (user && topic) {
-        const userTopic = await user.getTopic(topic);
+        const userTopic = await user.getTopics({
+            where: {
+                id: topic.id
+            }
+        });
         res.send(userTopic).status(200);
     } else {
         res.sendStatus(404);
@@ -47,9 +52,9 @@ router.get('/:userId/topic/:topicId', async (req, res) => {
 });
 
 // DELETE user from topic
-router.delete('/:userId/topic/:topicId', async (req, res) => {
+router.delete('/:userId/topics/:topicId', async (req, res) => {
     const user = await User.findByPk(req.params.userId);
-    const topic = await Topic.findByPk(req.params.id);
+    const topic = await Topic.findByPk(req.params.topicId);
     if (user) {
         if (topic) {
             await topic.removeUser(user);
@@ -67,7 +72,7 @@ router.delete('/:userId/topic/:topicId', async (req, res) => {
 // TOPIC
 
 // GET topic members
-router.get('/:topicId', async (req, res) => {
+router.get('/:topicId/members', async (req, res) => {
     const topic = await Topic.findByPk(req.params.topicId);
     if (topic) {
         const topicMembers = await topic.getUsers();
@@ -76,3 +81,5 @@ router.get('/:topicId', async (req, res) => {
         res.sendStatus(404);
     }
 });
+
+export default router;

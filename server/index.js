@@ -10,6 +10,7 @@ import { checkAuthentification } from './middlewares/auth.js';
 import authRouter from './routes/auth.js';
 import topicRouter from './routes/topic.js';
 import userRouter from './routes/user.js';
+import userTopicRouter from './routes/userTopic.js';
 import User from './models/User.js';
 import Topic from './models/Topic.js';
 import UserTopics from './models/UserTopics.js';
@@ -30,6 +31,7 @@ app.get('/', (req, res) => {
 app.use('/', authRouter);
 app.use('/users', userRouter);
 app.use('/topics', checkAuthentification, topicRouter);
+app.use('/user-topics', checkAuthentification, userTopicRouter);
 
 app.listen(port, () => {
     console.log('Server running on port : ', port);
