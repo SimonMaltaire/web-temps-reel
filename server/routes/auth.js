@@ -1,8 +1,8 @@
 import express from 'express';
-import { verifyToken, signToken } from '../middlewares/auth.js';
+import { checkToken, signToken } from '../middlewares/auth.js';
 import isAdmin from '../middlewares/isAdmin.js';
 import User from '../models/User.js';
-import bcryptjs from "bcryptjs"
+import bcryptjs from "bcryptjs";
 
 const authRouter = express.Router();
 
@@ -37,10 +37,6 @@ authRouter.post('/signup', async (req, res) => {
     } catch (error) {
         res.sendStatus(400);
     }
-});
-
-authRouter.get('/life', [isAdmin, verifyToken], (req, res) => {
-    res.send({ message: 'YEAH BOY' });
 });
 
 export default authRouter;
