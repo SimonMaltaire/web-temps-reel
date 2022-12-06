@@ -16,7 +16,7 @@ import Topic from './models/Topic.js';
 import UserTopics from './models/UserTopics.js';
 
 const app = express();
-const port = process.env.API_PORT || 3000;
+const port = process.env.API_PORT || 4000;
 
 app.use(cors());
 app.use(json());
