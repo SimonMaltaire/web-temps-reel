@@ -1,51 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomeLayout from "../layouts/HomeLayout.vue";
-import SessionLayout from "../layouts/SessionLayout.vue";
-import MessageLayout from "../layouts/MessageLayout.vue";
 import Home from "../views/Home.vue";
-import Message from "../views/Message.vue";
-import Room from "../views/Room.vue";
-import Login from "../views/Login.vue";
-import Register from "../views/Register.vue";
+import Topics from "../views/Topics.vue";
+import Messages from "../views/Messages.vue";
+import Signin from '../components/Signin.vue';
+import Signup from '../components/Signup.vue';
 import NotFound from "../404.vue";
 
 const routes = [
-    {
-        path: '/session',
-        component: SessionLayout,
-        children: [
-            {path: '', redirect: '/session/login'},
-            { path: 'login', name: 'login', component: Login },
-            { path: 'register', name: 'register', component: Register },
-        ]
-    },
-    {
-        path: '/',
-        component: HomeLayout,
-        children: [
-            {
-                path: '',
-                name: 'home',
-                component: Home
-            }
-        ]
-    },
-    {
-        path: '/message',
-        component: MessageLayout,
-        children: [
-            {
-                path: '',
-                name: 'message',
-                component: Message
-            },
-            {
-                path: '/room',
-                name: 'room',
-                component: Room
-            }
-        ]
-    },
+    { path: '/', name: 'home', component: Home },
+    { path: '/signin', name: 'signin', component: Signin },
+    { path: '/signup', name: 'signup', component: Signup },
+    { path: '/topics', name: 'topics', component: Topics },
+    { path: '/messages', name: 'messages', component: Messages },
     { path: '/404', name: 'not_found', component: NotFound },
     { path: '/:catchAll(.*)', redirect: '/404' }
 ]
