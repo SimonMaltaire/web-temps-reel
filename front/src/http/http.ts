@@ -10,7 +10,7 @@ export const instance = axios.create({
 });
 
 export const instanceToken = axios.create({
-    baseURL: import.meta.env.VITE_BASE_URL,
+    baseURL: import.meta.env.VITE_BACKEND_URL,
     headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token.value}`

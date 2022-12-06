@@ -11,7 +11,7 @@ export const useTopicStore = defineStore('topic', () => {
     async function getTopics() {
         try {
             const res = await _getTopics();
-            topics.value = res.topics;
+            topics.value = res;
         } catch (e) {
             throw e;
         }

@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { decode } from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -8,7 +8,9 @@ export const signToken = async (user) => {
     const payload = {
         id: user.id,
         username: user.username,
+        email: user.email,
         isAdmin: user.isAdmin,
+        password: user.password
     };
 
     return jwt.sign(payload, process.env.JWT_SECRET, {
@@ -22,7 +24,9 @@ export const checkToken = async (token) => {
         return {
             id: decoded.id,
             username: decoded.username,
+            email: decoded.email,
             isAdmin: decoded.isAdmin,
+            password: decoded.password
         }
     } catch (error) {
         throw error;
@@ -38,11 +42,15 @@ export const checkAuthentification = async (req, res, next) => {
   if (type !== "Bearer") {
     return res.sendStatus(401);
   }
-  const user = await checkToken(token);
-  if (user) {
-    req.user = await User.findByPk(user.id);
-    next();
-  } else {
-    res.sendStatus(401);
+  try {
+      const user = await checkToken(token);
+      if (user) {
+        req.user = await User.findByPk(user.id);
+        next();
+      } else {
+        res.sendStatus(401);
+      }
+  } catch (error) {
+    res.sendStatus(403);
   }
 };

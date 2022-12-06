@@ -14,8 +14,8 @@
         <v-divider></v-divider>
 
         <v-list density="compact" nav>
-            <v-list-item @click="router.push({ name: 'topics' })" prepend-icon="mdi-folder" title="Topics" value="myfiles"></v-list-item>
-            <v-list-item @click="router.push({ name: 'messages' })" prepend-icon="mdi-chat" title="Messages" value="shared"></v-list-item>
+            <v-list-item :to="{ name: 'topics' }" exact prepend-icon="mdi-folder" title="Topics" value="myfiles" ></v-list-item>
+            <v-list-item :to="{ name: 'messages' }" exact prepend-icon="mdi-chat" title="Messages" value="shared"></v-list-item>
             <v-list-item prepend-icon="mdi-star" title="Starred" value="starred"></v-list-item>
         </v-list>
     </v-navigation-drawer>

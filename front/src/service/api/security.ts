@@ -12,6 +12,16 @@ class Security {
         }
     } 
 
+    async _signinWithToken(token: string): Promise<any> {
+        try {
+            const uri = '/tokenSignin'
+            const res = await instance.post(uri, { token: token });
+            return res.data;
+        } catch (error) {
+            throw error;
+        }
+    } 
+
     async _signup(payload: Object): Promise<any> {
         try {
             const uri = '/signup'

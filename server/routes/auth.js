@@ -28,6 +28,31 @@ authRouter.post('/signin', async (req, res) => {
     }
 });
 
+authRouter.post('/tokenSignin', async (req, res) => {
+    try {
+        const decodedToken = await checkToken(req.body.token);
+        console.log(decodedToken)
+        const result = await User.findOne({
+            where: {
+                email: decodedToken.email
+            } 
+        });
+        if (!result) {
+            res.status(401).json(new Error("Error", "Email or password incorrect"));
+            return;
+        }
+        console.log(decodedToken.password, result.password)
+        if (!(decodedToken.password === result.password)) {
+            res.status(401).json(new Error("Error", "Email or password incorrect"));
+            return;
+        }
+        res.json({ user: result, accessToken: await signToken(result) });
+    } catch (error) {
+        res.sendStatus(500);
+        throw error;
+    }
+});
+
 authRouter.post('/signup', async (req, res) => {
     try {
         const result = await User.create({
