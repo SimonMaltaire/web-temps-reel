@@ -1,11 +1,10 @@
 import { defineStore } from 'pinia'
 import { computed, type ComputedRef, onMounted, ref } from "vue";
-import { security } from '../service/index';
-import { useLocalStorage } from '../composables/storage';
+import { security } from '../service/api';
+import { token } from '../service/index';
 
 export const useUserStore = defineStore('user', () => {
     const { _signin, _signup, _signinWithToken } = security;
-    const { addToken, removeToken, token } = useLocalStorage();
 
     const user = ref<any>({});
 
@@ -25,12 +24,11 @@ export const useUserStore = defineStore('user', () => {
         }
     }
 
-    async function signinWithToken(token: string ) {
+    async function signinWithToken(accessToken: string ) {
         try {
-            const res = await _signinWithToken(token);
+            const res = await _signinWithToken(accessToken);
             user.value = res.user;
-            console.log(user.value)
-            addToken(res.accessToken);
+            token.value = res.accessToken;
         } catch (e) {
             throw e;
         }
@@ -48,7 +46,6 @@ export const useUserStore = defineStore('user', () => {
         try {
             user.value = {};
             token.value = '';
-            // removeToken();
         } catch (e) {
 
         }

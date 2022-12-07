@@ -2,7 +2,7 @@
 import { defineComponent, onMounted } from 'vue';
 import Header from './components/Header.vue';
 import NavigationDrawer from './components/NavigationDrawer.vue';
-import { useLocalStorage } from './composables/storage';
+import { token } from './service/index';
 import { useUserStore } from './store/userStore';
 
 export default defineComponent({
@@ -10,7 +10,6 @@ export default defineComponent({
     setup() {
         const userStore = useUserStore();
         const { signinWithToken } = userStore;
-        const { token } = useLocalStorage();
 
         onMounted(async () => {
             if (token.value) {

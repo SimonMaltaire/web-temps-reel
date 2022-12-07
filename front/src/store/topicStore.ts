@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 import { ref } from "vue";
-import { topicsService } from '../service/index';
+import { topicsService } from '../service/api/index';
 
 export const useTopicStore = defineStore('topic', () => {
     const { _getTopic, _getTopics, _deleteTopic, _createTopic } = topicsService;

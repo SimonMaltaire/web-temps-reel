@@ -1,4 +1,4 @@
-import { instanceToken } from "../../http/http";
+import { client } from "../index";
 const namespace = '/topics';
 
 class Topic {
@@ -6,7 +6,7 @@ class Topic {
     async _createTopic(payload: Object): Promise<any> {
         try {
             const uri = namespace;
-            const res = await instanceToken.post(uri, payload);
+            const res = await client.post(uri, payload);
             return res.data;
         } catch (error) {
             throw error;
@@ -17,7 +17,7 @@ class Topic {
         try {
             const uri = namespace;
             console.log(uri)
-            const res = await instanceToken.get(uri);
+            const res = await client.get(uri);
             return res.data;
         } catch (error) {
             throw error;
@@ -27,7 +27,7 @@ class Topic {
     async _getTopic(topicId: string): Promise<any> {
         try {
             const uri = `${namespace}/${topicId}`;
-            const res = await instanceToken.get(uri);
+            const res = await client.get(uri);
             return res.data;
         } catch (error) {
             throw error;
@@ -37,7 +37,7 @@ class Topic {
     async _deleteTopic(topicId: string): Promise<any> {
         try {
             const uri = `${namespace}/${topicId}`;
-            const res = await instanceToken.delete(uri);
+            const res = await client.delete(uri);
             return res.data;
         } catch (error) {
             throw error;
