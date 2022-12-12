@@ -12,6 +12,10 @@ export const useUserStore = defineStore('user', () => {
         return user.value && Object.keys(user.value).length > 1;
     });
 
+    const isAdmin = computed(() => {
+        return isAuth && user.value.isAdmin;
+    });
+
     async function signin(payload: { email: string, password: string }) {
         try {
             const res = await _signin(payload);
@@ -51,5 +55,5 @@ export const useUserStore = defineStore('user', () => {
         }
     }
 
-    return { signin, signup, signinWithToken, logout, isAuth, user }
+    return { signin, signup, signinWithToken, logout, isAuth, isAdmin, user }
 });

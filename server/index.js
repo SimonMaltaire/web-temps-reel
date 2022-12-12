@@ -13,6 +13,7 @@ import userRouter from './routes/user.js';
 import userTopicRouter from './routes/userTopic.js';
 import User from './models/User.js';
 import Topic from './models/Topic.js';
+import Message from './models/Message.js';
 import UserTopics from './models/UserTopics.js';
 
 const app = express();
@@ -23,6 +24,9 @@ app.use(json());
 
 User.belongsToMany(Topic, { through: UserTopics });
 Topic.belongsToMany(User, { through: UserTopics });
+
+Message.belongsTo(Topic, { foreignKey: "topicId" });
+Topic.hasMany(Message, { foreignKey: "topicId" });
 
 app.get('/', (req, res) => {
     res.send('ROOT');

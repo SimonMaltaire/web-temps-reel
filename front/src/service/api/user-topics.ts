@@ -1,17 +1,37 @@
 import { client } from "../index";
-const namespace = '/topics';
+const namespace = '/user-topics';
 
-class Topic {
+class UserTopics {
 
-    async _createTopic(payload: Object): Promise<any> {
+    async _addUserToTopic(topicId: string): Promise<any> {
         try {
-            const uri = namespace;
-            const res = await client.post(uri, payload);
+            const uri = `${namespace}/${topicId}`;
+            const res = await client.post(uri, {});
             return res.data;
         } catch (error) {
             throw error;
         }
     } 
+    
+    async _removeUserFromTopic(topicId: string): Promise<any> {
+        try {
+            const uri = `${namespace}/${topicId}`;
+            const res = await client.delete(uri);
+            return res.data;
+        } catch (error) {
+            throw error;
+        }
+    } 
+
+    async _topicMembers(topicId: string): Promise<any> {
+        try {
+            const uri = `${namespace}/${topicId}/members`;
+            const res = await client.get(uri);
+            return res.data;
+        } catch (error) {
+            throw error;
+        }
+    }
 
     async _updateTopic(payload: { name: string, size: number, topicId: string }): Promise<any> {
         try {
@@ -55,6 +75,6 @@ class Topic {
     } 
 }
 
-const topicsService = new Topic();
+const userTopicsService = new UserTopics();
 
-export default topicsService;
+export default userTopicsService;

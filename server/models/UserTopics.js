@@ -13,14 +13,16 @@ UserTopics.init(
             references: {
                 model: User,
                 key: 'id'
-              }
+            },
+            onDelete: 'cascade'
         },
         topicId: {
             type: DataTypes.UUID,
             references: {
                 model: Topic,
                 key: 'id'
-              }
+            },
+            onDelete: 'cascade'
         }
     },
     {

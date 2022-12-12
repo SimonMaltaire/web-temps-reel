@@ -7,8 +7,8 @@ const router = express.Router();
 // USER
 
 // POST user to topic
-router.post('/:userId/topics/:topicId', async (req, res) => {
-    const user = await User.findByPk(req.params.userId);
+router.post('/:topicId', async (req, res) => {
+    const user = await User.findByPk(req.user.id);
     const topic = await Topic.findByPk(req.params.topicId);
     if (topic) {
         if (user) {
@@ -25,8 +25,8 @@ router.post('/:userId/topics/:topicId', async (req, res) => {
 });
 
 // GET user's topics
-router.get('/:userId', async (req, res) => {
-    const user = await User.findByPk(req.params.userId);
+router.get('/', async (req, res) => {
+    const user = await User.findByPk(req.user.id);
     if (user) {
         const userTopics = await user.getTopics();
         res.send(userTopics).status(200);
@@ -36,8 +36,8 @@ router.get('/:userId', async (req, res) => {
 });
 
 // GET user's topic
-router.get('/:userId/topics/:topicId', async (req, res) => {
-    const user = await User.findByPk(req.params.userId);
+router.get('/:topicId', async (req, res) => {
+    const user = await User.findByPk(req.user.id);
     const topic = await Topic.findByPk(req.params.topicId);
     if (user && topic) {
         const userTopic = await user.getTopics({
@@ -52,8 +52,8 @@ router.get('/:userId/topics/:topicId', async (req, res) => {
 });
 
 // DELETE user from topic
-router.delete('/:userId/topics/:topicId', async (req, res) => {
-    const user = await User.findByPk(req.params.userId);
+router.delete('/:topicId', async (req, res) => {
+    const user = await User.findByPk(req.user.id);
     const topic = await Topic.findByPk(req.params.topicId);
     if (user) {
         if (topic) {
