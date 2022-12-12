@@ -22,7 +22,7 @@ io.on("connection", (socket) => {
                 content: payload.content,
             });
             await topic.addMessage(message);
-            socket.to(payload.topicId).emit("room-message", { message: message.content, ...recipient })
+            socket.to(payload.topicId).emit("room-message", { message: message.content, recipient: recipient })
         } catch (e) {
             console.log(e)
             socket.to(payload.topicId).emit("room-message-error", { message: e })
