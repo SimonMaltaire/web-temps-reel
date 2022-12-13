@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import {defineComponent, onMounted, ref} from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../store/userStore'
 import { createToast } from 'mosha-vue-toastify';
@@ -34,7 +34,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <v-card class="pa-6">
+    <v-card class="pa-6 w-1/2 self-center">
         <template #title>
             Signin by entering your credentials
         </template>

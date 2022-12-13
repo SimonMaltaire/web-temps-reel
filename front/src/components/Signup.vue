@@ -26,6 +26,7 @@ export default defineComponent({
                 password: password.value,
                 isAdmin: false
             });
+
             createToast("Account created succesfully", { type: 'success', position: 'bottom-right' });
             router.push({ name: 'signin' });
         } catch (e) {
@@ -39,7 +40,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <v-card class="pa-6">
+    <v-card class="pa-6 w-1/2 self-center">
         <template #title>
             Signup by entering your credentials
         </template>
@@ -58,7 +59,7 @@ export default defineComponent({
                     />
                 </template>
             </v-text-field>
-            <v-text-field v-model="password" :type="showPasswordAgain ? 'text' : 'password'" placeholder="Password again" required>
+            <v-text-field v-model="password" :type="showPasswordAgain ? 'text' : 'password'" placeholder="Password confirmation" required>
                 <template v-slot:append-inner>
                     <v-icon
                         @click="showPasswordAgain = !showPasswordAgain"

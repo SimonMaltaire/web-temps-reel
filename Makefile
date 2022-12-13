@@ -36,4 +36,4 @@ front-cmd:
 	docker-compose exec front
 
 server-cmd:
-	docker-compose exec front
+	docker-compose exec server
