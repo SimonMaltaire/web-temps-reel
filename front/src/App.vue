@@ -2,14 +2,19 @@
 import { defineComponent, onMounted } from 'vue';
 import Header from './components/Header.vue';
 import NavigationDrawer from './components/NavigationDrawer.vue';
-import { token } from './service/index';
+import { token } from './service';
 import { useUserStore } from './store/userStore';
+import {storeToRefs} from "pinia";
+import {useRouter} from "vue-router";
 
 export default defineComponent({
-    components: { Header, NavigationDrawer },
+    components: {Header, NavigationDrawer},
     setup() {
         const userStore = useUserStore();
+        const router = useRouter();
         const { signinWithToken } = userStore;
+        const { isAuth } = storeToRefs(userStore);
+        const { user } = storeToRefs(userStore);
 
         onMounted(async () => {
             if (token.value) {
@@ -20,16 +25,18 @@ export default defineComponent({
                 }
             }
         })
+
+        return { isAuth }
     }
 });
 </script>
 
 <template> 
     <v-app class="d-flex flex-column" app>
-        <Header></Header>
-        <NavigationDrawer></NavigationDrawer>
+        <Header v-if="isAuth"></Header>
+        <NavigationDrawer v-if="isAuth"></NavigationDrawer>
         <v-main>
-            <v-container fluid>
+            <v-container class="pa-0 h-full w-full" fluid>
                 <router-view />
             </v-container>
         </v-main>

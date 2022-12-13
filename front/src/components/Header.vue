@@ -42,7 +42,7 @@ export default defineComponent({
 
     const logoutUser = async () => {
         logout();
-        router.push({ name: 'home' });
+        router.push({ name: 'signin' });
     }
     return { router, isAuth, logoutUser }
   }
