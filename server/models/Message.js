@@ -20,6 +20,14 @@ Message.init(
             },
             onDelete: 'cascade'
         },
+        recipientId: {
+            type: DataTypes.UUID,
+            allowNull: false
+        },
+        createdBy: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         content: {
             type: DataTypes.STRING,
             allowNull: false

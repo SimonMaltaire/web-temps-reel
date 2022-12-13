@@ -2,6 +2,8 @@
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../store/userStore';
+import { createToast } from 'mosha-vue-toastify';
+
 export default defineComponent({
   name: "Signup",
   setup() {
@@ -23,9 +25,11 @@ export default defineComponent({
                 email: email.value,
                 password: password.value,
                 isAdmin: false
-            })
+            });
+            createToast("Account created succesfully", { type: 'success', position: 'bottom-right' });
+            router.push({ name: 'signin' });
         } catch (e) {
-            
+            createToast("Error while creating account", { type: 'danger', position: 'bottom-right' });
         }
     }
     return { validate, username, email, password, valid, showPassword, showPasswordAgain, router }

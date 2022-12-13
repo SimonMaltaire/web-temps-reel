@@ -2,7 +2,7 @@
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../store/userStore'
-
+import { createToast } from 'mosha-vue-toastify';
 export default defineComponent({
   name: "Signin",
   setup() {
@@ -23,7 +23,7 @@ export default defineComponent({
             });
             router.push({ name: 'home' });
         } catch (e) {
-            //TODO toast
+            createToast("Error while signin in", { type: 'danger', position: 'bottom-right' });
             throw e;
         }
     }

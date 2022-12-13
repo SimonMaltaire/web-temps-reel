@@ -13,19 +13,25 @@ io.on("connection", (socket) => {
     console.log("web socket connected")
 
     socket.on("room-message", async (payload) => {
-        console.log(payload)
         try {
             const topic = await Topic.findByPk(payload.topicId);
             const recipient = await User.findByPk(payload.recipientId);
-            console.log(payload.content, typeof payload.content)
             const message = await Message.create({
                 content: payload.content,
+                recipientId: recipient.id,
+                createdBy: recipient.username
             });
             await topic.addMessage(message);
-            socket.to(payload.topicId).emit("room-message", { message: message.content, recipient: recipient })
+            io.to(payload.topicId).emit("room-message", 
+                { 
+                    content: message.content, 
+                    createdBy: recipient.username, 
+                    recipientId: recipient.id,
+                    createdAt: message.createdAt
+                })
         } catch (e) {
             console.log(e)
-            socket.to(payload.topicId).emit("room-message-error", { message: e })
+            io.to(payload.topicId).emit("room-message-error", { message: "Error while sending message" })
         }
     });
 

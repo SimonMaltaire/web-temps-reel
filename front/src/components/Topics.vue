@@ -16,8 +16,7 @@
                     <template v-slot:append>
                         <v-menu
                             v-if="isAdmin"
-                            open-on-hover
-                            >
+                        >
                             <template v-slot:activator="{ props }">
                                 <v-btn
                                     icon="mdi-dots-vertical"
@@ -52,14 +51,14 @@ import { useUserTopicsStore } from '../store/userTopicsStore';
 import AddTopicDialog from './dialogs/AddTopicDialog.vue';
 import DeleteTopicDialog from './dialogs/DeleteTopicDialog.vue';
 import UpdateTopicDialog from './dialogs/UpdateTopicDialog.vue';
-import { joinRoom } from '../../index';
+import { createToast } from 'mosha-vue-toastify';
 
 export default defineComponent({
     components: { AddTopicDialog, DeleteTopicDialog, UpdateTopicDialog },
     setup() {
         const router = useRouter();
         const topicStore = useTopicStore();
-        const { getTopics, createTopic } = topicStore;
+        const { getTopics } = topicStore;
         const { topics } = storeToRefs(topicStore);
 
         const userTopicStore = useUserTopicsStore();
@@ -73,7 +72,6 @@ export default defineComponent({
         const navigateToTopic = async (topicId: string) => {
             try {
                 await addUserToTopic(topicId);
-                joinRoom(topicId);
                 router.push({ name: 'room', params: { id: topicId }});
             } catch (e) {
                 console.error(e);
@@ -84,7 +82,7 @@ export default defineComponent({
             try {
                 await getTopics();
             } catch (error) {
-                
+                createToast("Error while fetching topics", { type: 'danger', position: 'bottom-right' });
             }
         });
 

@@ -20,18 +20,17 @@
                 </v-form>
             </v-card-text>
                 
-
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
-                    color="green-darken-1"
+                    color="red darken-1"
                     variant="text"
                     @click="dialog = false"
                 >
                     Cancel
                 </v-btn>
                 <v-btn
-                    color="green-darken-1"
+                    color="primary"
                     variant="text"
                     @click="submit()"
                 >
@@ -45,6 +44,7 @@
 <script lang="ts">
 import { defineComponent, ref, toRefs } from 'vue';
 import { useTopicStore } from '../../store/topicStore';
+import { createToast } from 'mosha-vue-toastify';
 export default defineComponent({
     props: {
         item: {
@@ -69,9 +69,11 @@ export default defineComponent({
                     size: topicSize.value,
                     topicId: item.id
                 });
+                createToast("Topic updated", { type: 'success', position: 'bottom-right' });
                 dialog.value = false;
             } catch (e) {
                 console.error(e);
+                createToast("Error while updating topic", { type: 'danger', position: 'bottom-right' });
                 dialog.value = false;
             }
         }
