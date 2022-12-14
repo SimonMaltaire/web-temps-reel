@@ -1,6 +1,7 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 import sequelize from "./db.js";
 import bcryptjs from "bcryptjs";
+import Reservation from "./Reservation.js";
 
 class User extends Model {}
 
@@ -11,6 +12,13 @@ User.init(
             defaultValue: Sequelize.UUIDV4,
             primaryKey: true,
             allowNull: false
+        },
+        reservationId: {
+            type: DataTypes.UUID,
+            references: {
+                model: Reservation,
+                key: 'id'
+            }
         },
         email: {
             type: DataTypes.STRING,

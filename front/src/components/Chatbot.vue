@@ -63,7 +63,7 @@
           <v-date-picker v-model="customerInputMaintenance" class="ma-3" />
         </v-row>
         <v-row no-gutters justify="end">
-          <v-btn @click="dateOfTheLastMaintenance = customerInputMaintenance; addToConversation('customer', dateOfTheLastMaintenance);" class="mx-3 my-1 custom-choice-btn text-blue" flat rounded>Confirmer</v-btn>
+          <v-btn @click="dateOfTheLastMaintenance = customerInputMaintenance; addToConversation('customer', formatDate(dateOfTheLastMaintenance));" class="mx-3 my-1 custom-choice-btn text-blue" flat rounded>Confirmer</v-btn>
         </v-row>
       </div>
       <v-row v-if="step !== 0" no-gutters justify="end">
@@ -146,6 +146,18 @@ export default defineComponent({
       }
     }
 
+    function formatDate(dateString: string | number): string {
+            const date = new Date(dateString);
+            return date.toLocaleString('en', 
+                {
+                    year: "numeric",
+                    month: "numeric",
+                    day: "numeric", 
+                    // hour: "2-digit",
+                    // minute: "2-digit"
+                })
+        }
+
       return {
         menu,
         conversation,
@@ -162,6 +174,7 @@ export default defineComponent({
         customerInputMaintenance,
         yearOfTheVehicle,
         dateOfTheLastMaintenance,
+        formatDate,
       }
     }
 })
