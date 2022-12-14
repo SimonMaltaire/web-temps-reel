@@ -6,6 +6,11 @@ import { createPinia } from 'pinia';
 // import the styling for the toast
 import 'mosha-vue-toastify/dist/style.css'
 
+import 'v-calendar/dist/style.css';
+import VCalendar from 'v-calendar';
+
+// Use plugin with defaults
+
 //vuetify
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
@@ -23,6 +28,7 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(vuetify);
 app.use(router);
+app.use(VCalendar, {})
 
 app.mount('#app');
 

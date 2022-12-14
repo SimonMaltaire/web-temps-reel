@@ -59,7 +59,9 @@
         </v-row>
       </div>
       <div v-if="conversation[conversation.length - 1]?.content === 'Quelle est la date du dernier entretien ?'">
-        <v-text-field v-model="customerInputMaintenance" hide-details clearable label="Entrez la date du dernier entretien" class="ma-3"></v-text-field>
+        <v-row no-gutters justify="center">
+          <v-date-picker v-model="customerInputMaintenance" class="ma-3" />
+        </v-row>
         <v-row no-gutters justify="end">
           <v-btn @click="dateOfTheLastMaintenance = customerInputMaintenance; addToConversation('customer', dateOfTheLastMaintenance);" class="mx-3 my-1 custom-choice-btn text-blue" flat rounded>Confirmer</v-btn>
         </v-row>
