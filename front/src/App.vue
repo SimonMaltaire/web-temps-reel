@@ -6,9 +6,10 @@ import { token } from './service';
 import { useUserStore } from './store/userStore';
 import {storeToRefs} from "pinia";
 import {useRouter} from "vue-router";
+import Chatbot from './components/Chatbot.vue';
 
 export default defineComponent({
-    components: {Header, NavigationDrawer},
+    components: { Header, NavigationDrawer, Chatbot },
     setup() {
         const userStore = useUserStore();
         const router = useRouter();
@@ -35,8 +36,9 @@ export default defineComponent({
     <v-app class="d-flex flex-column" app>
         <Header v-if="isAuth"></Header>
         <NavigationDrawer v-if="isAuth"></NavigationDrawer>
+        <Chatbot></Chatbot>
         <v-main>
-            <v-container class="pa-0 h-full w-full" fluid>
+            <v-container fluid>
                 <router-view />
             </v-container>
         </v-main>

@@ -11,11 +11,10 @@ import authRouter from './routes/auth.js';
 import topicRouter from './routes/topic.js';
 import userRouter from './routes/user.js';
 import userTopicRouter from './routes/userTopic.js';
-import topicMessagesRouter from './routes/topicMessages.js'
-import User from './models/User.js';
-import Topic from './models/Topic.js';
-import Message from './models/Message.js';
-import UserTopics from './models/UserTopics.js';
+import topicMessagesRouter from './routes/topicMessages.js';
+import reservationRouter from './routes/reservation.js';
+
+import { User, Topic, Message, Reservation, UserTopics } from './models/index.js';
 
 const app = express();
 const port = process.env.API_PORT || 4000;
@@ -29,6 +28,10 @@ Topic.belongsToMany(User, { through: UserTopics });
 Message.belongsTo(Topic, { foreignKey: "topicId" });
 Topic.hasMany(Message, { foreignKey: "topicId" });
 
+Reservation.belongsTo(User);
+User.hasMany(Reservation, { foreignKey: "userId" });
+
+
 app.get('/', (req, res) => {
     res.send('ROOT');
 });
@@ -38,6 +41,7 @@ app.use('/users', userRouter);
 app.use('/topics', checkAuthentification, topicRouter);
 app.use('/user-topics', checkAuthentification, userTopicRouter);
 app.use('/topic-messages', checkAuthentification, topicMessagesRouter);
+app.use('/reservations', checkAuthentification, reservationRouter);
 
 app.listen(port, () => {
     console.log('Server running on port : ', port);

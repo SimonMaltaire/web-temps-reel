@@ -1,6 +1,5 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 import sequelize from "./db.js";
-import bcryptjs from "bcryptjs";
 import User from "./User.js";
 import Topic from "./Topic.js";
 
