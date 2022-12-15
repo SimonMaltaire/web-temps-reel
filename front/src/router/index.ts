@@ -22,11 +22,11 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createWebHashHistory(import.meta.env.BASE_URL),
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes
 });
 
-router.beforeEach((to, from, next) => {
+/*router.beforeEach((to, from, next) => {
     const userStore = useUserStore();
     const { isAuth } = storeToRefs(userStore);
 
@@ -35,6 +35,6 @@ router.beforeEach((to, from, next) => {
     } else {
         next()
     }
-})
+})*/
 
 export default router;
