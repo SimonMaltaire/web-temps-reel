@@ -36,10 +36,9 @@ export default defineComponent({
     <v-app class="d-flex flex-column" app>
         <Header v-if="isAuth"></Header>
         <NavigationDrawer v-if="isAuth"></NavigationDrawer>
-        <Header></Header>
         <Chatbot></Chatbot>
         <v-main>
-            <v-container class="pa-0 h-full w-full" fluid>
+            <v-container fluid>
                 <router-view />
             </v-container>
         </v-main>

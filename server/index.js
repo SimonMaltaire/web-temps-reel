@@ -28,8 +28,8 @@ Topic.belongsToMany(User, { through: UserTopics });
 Message.belongsTo(Topic, { foreignKey: "topicId" });
 Topic.hasMany(Message, { foreignKey: "topicId" });
 
-User.hasMany(Reservation, { foreignKey: "reservationId" });
-Reservation.belongsTo(User, { foreignKey: "reservationId" });
+Reservation.belongsTo(User);
+User.hasMany(Reservation, { foreignKey: "userId" });
 
 
 app.get('/', (req, res) => {
