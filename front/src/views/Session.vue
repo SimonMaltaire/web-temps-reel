@@ -12,9 +12,7 @@ import {token} from "../service";
 export default defineComponent({
     name: "Session",
     beforeRouteEnter (to, from, next) {
-        const token = localStorage.getItem('token')
-
-        if (token) {
+        if (token.value) {
             next({name: 'home'})
         } else {
             next()

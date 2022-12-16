@@ -21,9 +21,8 @@ export default defineComponent({
     setup() {
     },
     beforeRouteEnter (to, from, next) {
-        const token = localStorage.getItem('token')
         // check if the user is authenticated
-        if (token) {
+        if (token.value) {
             next()
         } else {
             next({name: 'signin'})
