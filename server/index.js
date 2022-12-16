@@ -15,6 +15,7 @@ import topicMessagesRouter from './routes/topicMessages.js';
 import reservationRouter from './routes/reservation.js';
 
 import { User, Topic, Message, Reservation, UserTopics } from './models/index.js';
+import { sseRouter, restRouter } from './routes/sse.js';
 
 const app = express();
 const port = process.env.API_PORT || 4000;
@@ -42,6 +43,8 @@ app.use('/topics', checkAuthentification, topicRouter);
 app.use('/user-topics', checkAuthentification, userTopicRouter);
 app.use('/topic-messages', checkAuthentification, topicMessagesRouter);
 app.use('/reservations', checkAuthentification, reservationRouter);
+app.use('/admin-notifications', sseRouter);
+app.use('/notifications', restRouter);
 
 app.listen(port, () => {
     console.log('Server running on port : ', port);

@@ -16,6 +16,15 @@ export default defineComponent({
         const { signinWithToken } = userStore;
 
         onMounted(async () => {
+            const source = new EventSource('http://localhost:4000/admin-notifications');
+
+            source.onmessage = (e) => {
+                console.log(e)
+            }
+            source.addEventListener('notifications', (e: any) => {
+                console.log(e);
+            });
+
             if (token.value) {
                 try {
                     await signinWithToken(token.value);

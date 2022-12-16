@@ -14,6 +14,7 @@ export default defineComponent({
     const username = ref<string>('');
     const email = ref<string>('');
     const password = ref<string>('');
+    const passwordAgain = ref<string>('');
     const valid = ref<boolean>(false);
     const showPassword = ref<boolean>(false);
     const showPasswordAgain = ref<boolean>(false);
@@ -33,7 +34,7 @@ export default defineComponent({
             createToast("Error while creating account", { type: 'danger', position: 'bottom-right' });
         }
     }
-    return { validate, username, email, password, valid, showPassword, showPasswordAgain, router }
+    return { validate, username, email, password, valid, showPassword, showPasswordAgain, passwordAgain, router }
   }
 });
 
@@ -59,7 +60,7 @@ export default defineComponent({
                     />
                 </template>
             </v-text-field>
-            <v-text-field v-model="password" :type="showPasswordAgain ? 'text' : 'password'" placeholder="Password confirmation" required>
+            <v-text-field v-model="passwordAgain" :type="showPasswordAgain ? 'text' : 'password'" placeholder="Password confirmation" required>
                 <template v-slot:append-inner>
                     <v-icon
                         @click="showPasswordAgain = !showPasswordAgain"
