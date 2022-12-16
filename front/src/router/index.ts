@@ -8,6 +8,7 @@ import Room from '../components/Room.vue';
 import Topics from "../components/Topics.vue";
 import Messages from "../components/Messages.vue";
 import {useUserStore} from "../store/userStore";
+import {token} from "../service";
 
 const routes = [
     { path: '/', name: 'home', component: Home, meta: { requiresAuth: true },
@@ -32,5 +33,13 @@ const router = createRouter({
     routes
 });
 
+router.beforeEach((to, from, next) => {
+    // check if the user is authenticated
+    if (to.meta.requiresAuth && !token.value) {
+        next({name: 'home'})
+    } else {
+        next({name: 'signin'})
+    }
+});
 
 export default router;
