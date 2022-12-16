@@ -33,13 +33,4 @@ const router = createRouter({
     routes
 });
 
-router.beforeEach((to, from, next) => {
-    // check if the user is authenticated
-    if (to.meta.requiresAuth && !token.value) {
-        next({name: 'home'})
-    } else {
-        next({name: 'signin'})
-    }
-});
-
 export default router;
