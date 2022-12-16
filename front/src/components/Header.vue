@@ -4,9 +4,10 @@
             <v-app-bar-nav-icon></v-app-bar-nav-icon>
         </template>
         <template v-slot:append>
-            <v-tooltip text="Account" location="bottom">
+            <SendNotificationDialog v-if="isAdmin" />
+            <v-tooltip v-if="isAuth" text="Account" location="bottom">
                 <template v-slot:activator="{ props }">
-                    <v-btn v-if="isAuth" v-bind="props" @click="router.push({ name: 'user' })" icon="mdi-account"></v-btn>
+                    <v-btn v-bind="props" @click="router.push({ name: 'user' })" icon="mdi-account"></v-btn>
                 </template>
             </v-tooltip>
 
@@ -30,22 +31,22 @@ import { storeToRefs } from 'pinia';
 import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../store/userStore';
+import SendNotificationDialog from './dialogs/SendNotificationDialog.vue';
 
 export default defineComponent({
-  name: "AppHeader",
-  setup() {
-    const router = useRouter();
-    const userStore = useUserStore();
-    const { isAuth } = storeToRefs(userStore);
-    const { logout } = userStore;
-
-
-    const logoutUser = async () => {
-        logout();
-        router.push({ name: 'signin' });
+    name: "AppHeader",
+    components: { SendNotificationDialog },
+    setup() {
+        const router = useRouter();
+        const userStore = useUserStore();
+        const { isAuth, isAdmin } = storeToRefs(userStore);
+        const { logout } = userStore;
+        const logoutUser = async () => {
+            logout();
+            router.push({ name: "signin" });
+        };
+        return { router, isAuth, isAdmin, logoutUser };
     }
-    return { router, isAuth, logoutUser }
-  }
 });
 
 </script>
