@@ -40,7 +40,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <v-card class="pa-6 w-1/2 self-center">
+    <v-card class="pa-6 w-1/2 self-center" elevation="10">
         <template #title>
             Signup by entering your credentials
         </template>

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import Home from "../views/Home.vue";
 import Session from "../views/Session.vue";
 import NotFound from "../404.vue";
@@ -7,8 +7,7 @@ import Signup from '../components/Signup.vue';
 import Room from '../components/Room.vue';
 import Topics from "../components/Topics.vue";
 import Messages from "../components/Messages.vue";
-import {useUserStore} from "../store/userStore";
-import {token} from "../service";
+import { token } from "../service";
 
 const routes = [
     { path: '/', name: 'home', component: Home, meta: { requiresAuth: true },
@@ -31,6 +30,16 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes
+});
+
+router.beforeEach((to, from, next) => {
+    if (to.meta.requiresAuth && !token.value) {
+        next({ name: 'signin' });
+    } else if (to.path.includes('signin') && token.value) {
+        next({ name: 'home' });
+    } else {
+        next();
+    }
 });
 
 export default router;
