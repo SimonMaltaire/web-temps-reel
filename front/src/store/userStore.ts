@@ -20,7 +20,7 @@ export const useUserStore = defineStore('user', () => {
         try {
             const res = await _signin(payload);
             user.value = res.user;
-            console.log(user.value)
+            localStorage.setItem('token', res.accessToken)
             token.value = res.accessToken;
             // addToken(res.accessToken);
         } catch (e) {
@@ -50,6 +50,7 @@ export const useUserStore = defineStore('user', () => {
         try {
             user.value = {};
             token.value = '';
+            localStorage.removeItem('token')
         } catch (e) {
 
         }

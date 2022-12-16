@@ -21,7 +21,8 @@ export default defineComponent({
                 email: email.value,
                 password: password.value
             });
-            router.push({ name: 'home' });
+
+            await router.push({ name: 'home' });
         } catch (e) {
             createToast("Error while signin in", { type: 'danger', position: 'bottom-right' });
             throw e;
