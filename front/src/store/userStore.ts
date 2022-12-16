@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, type ComputedRef, onMounted, ref } from "vue";
 import { security } from '../service/api';
-import { token } from '../service/index';
+import { token } from '../service';
 
 export const useUserStore = defineStore('user', () => {
     const { _signin, _signup, _signinWithToken } = security;
@@ -20,7 +20,6 @@ export const useUserStore = defineStore('user', () => {
         try {
             const res = await _signin(payload);
             user.value = res.user;
-            console.log(user.value)
             token.value = res.accessToken;
             // addToken(res.accessToken);
         } catch (e) {

@@ -3,6 +3,7 @@ import {defineComponent, onMounted, ref} from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../store/userStore'
 import { createToast } from 'mosha-vue-toastify';
+
 export default defineComponent({
   name: "Signin",
   setup() {
@@ -21,7 +22,8 @@ export default defineComponent({
                 email: email.value,
                 password: password.value
             });
-            router.push({ name: 'home' });
+
+            await router.push({ name: 'home' });
         } catch (e) {
             createToast("Error while signin in", { type: 'danger', position: 'bottom-right' });
             throw e;
@@ -34,7 +36,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <v-card class="pa-6 w-1/2 self-center">
+    <v-card class="pa-6 w-1/2 self-center" elevation="10">
         <template #title>
             Signin by entering your credentials
         </template>

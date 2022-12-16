@@ -9,13 +9,11 @@ import {useRouter} from "vue-router";
 import Chatbot from './components/Chatbot.vue';
 
 export default defineComponent({
-    components: { Header, NavigationDrawer, Chatbot },
+    components: { Chatbot },
     setup() {
         const userStore = useUserStore();
         const router = useRouter();
         const { signinWithToken } = userStore;
-        const { isAuth } = storeToRefs(userStore);
-        const { user } = storeToRefs(userStore);
 
         onMounted(async () => {
             if (token.value) {
@@ -26,16 +24,12 @@ export default defineComponent({
                 }
             }
         })
-
-        return { isAuth }
     }
 });
 </script>
 
-<template> 
+<template>
     <v-app class="d-flex flex-column" app>
-        <Header v-if="isAuth"></Header>
-        <NavigationDrawer v-if="isAuth"></NavigationDrawer>
         <Chatbot></Chatbot>
         <v-main>
             <v-container fluid>
