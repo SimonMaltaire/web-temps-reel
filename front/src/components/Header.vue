@@ -9,17 +9,10 @@
             <SendNotificationDialog v-if="isAdmin" />
             <v-tooltip v-if="isAuth" text="Account" location="bottom">
                 <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" @click="router.push({ name: 'user' })" icon="mdi-account"></v-btn>
+                    <v-btn v-bind="props" @click="router.push({ name: 'profile' })" icon="mdi-account"></v-btn>
                 </template>
             </v-tooltip>
-
-            <v-tooltip v-if="!isAuth" text="Signin" location="bottom">
-                <template v-slot:activator="{ props }">
-                    <v-btn v-bind="props" @click="router.push({ name: 'signin' })" icon="mdi-login"></v-btn>                
-                </template>
-            </v-tooltip>
-
-            <v-tooltip v-else text="Logout" location="bottom">
+            <v-tooltip text="Logout" location="bottom">
                 <template v-slot:activator="{ props }">
                     <v-btn @click="logoutUser" v-bind="props" icon="mdi-logout"></v-btn>                
                 </template>
@@ -49,11 +42,13 @@ export default defineComponent({
             router.push({ name: "signin" });
         };
 
+        const { user } = storeToRefs(userStore);
+
         const drawerNavigationStore = useDrawerNavigationStore();
 
         const { display } = drawerNavigationStore;
 
-        return { router, isAuth, isAdmin, logoutUser, display };
+        return { router, isAuth, isAdmin, logoutUser, display, user };
     }
 });
 

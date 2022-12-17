@@ -7,6 +7,7 @@ import Signup from '../components/Signup.vue';
 import Room from '../components/Room.vue';
 import Topics from "../components/Topics.vue";
 import Messages from "../components/Messages.vue";
+import Profile from "../components/Profile.vue";
 import { token } from "../service";
 
 const routes = [
@@ -15,6 +16,7 @@ const routes = [
             { path: '/topics', name: 'topics', component: Topics, meta: { requiresAuth: true } },
             { path: '/messages', name: 'messages', component: Messages, meta: { requiresAuth: true } },
             { path: '/room/:id', name: 'room', component: Room, meta: { requiresAuth: true } },
+            { path: '/profile', name: 'profile', component: Profile, meta: { requiresAuth: true } },
         ]
     },
     { path: '/session', name: 'session', component: Session, meta: { requiresAuth: false }, redirect: 'signin',
