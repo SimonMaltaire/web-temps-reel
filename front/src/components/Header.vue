@@ -1,7 +1,9 @@
 <template>
     <v-app-bar title="MotoCycle Energy">
         <template v-slot:prepend>
-            <v-app-bar-nav-icon></v-app-bar-nav-icon>
+            <v-app-bar-nav-icon
+                @click="display"
+            ></v-app-bar-nav-icon>
         </template>
         <template v-slot:append>
             <SendNotificationDialog v-if="isAdmin" />
@@ -32,6 +34,7 @@ import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../store/userStore';
 import SendNotificationDialog from './dialogs/SendNotificationDialog.vue';
+import { useDrawerNavigationStore } from "../store/drawerNavigationStore";
 
 export default defineComponent({
     name: "AppHeader",
@@ -45,7 +48,12 @@ export default defineComponent({
             logout();
             router.push({ name: "signin" });
         };
-        return { router, isAuth, isAdmin, logoutUser };
+
+        const drawerNavigationStore = useDrawerNavigationStore();
+
+        const { display } = drawerNavigationStore;
+
+        return { router, isAuth, isAdmin, logoutUser, display };
     }
 });
 
