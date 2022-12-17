@@ -9,6 +9,7 @@ import {useRouter} from "vue-router";
 import Chatbot from './components/Chatbot.vue';
 
 export default defineComponent({
+    components: { Chatbot },
     setup() {
         const userStore = useUserStore();
         const { signinWithToken } = userStore;
@@ -43,7 +44,7 @@ export default defineComponent({
                     await signinWithToken(token.value);
                 } catch (error) {
                     console.log(error)
-                    token.value = "Z";
+                    token.value = "";
                 }
             }
         });
@@ -56,6 +57,7 @@ export default defineComponent({
 <template>
     <v-app class="d-flex flex-column" app>
         <v-main>
+            <Chatbot/>
             <v-container fluid>
                 <router-view />
                 <v-snackbar v-if="!isAdmin" v-model="snackbar" multi-line>

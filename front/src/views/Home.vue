@@ -1,8 +1,8 @@
 <template>
     <div class="h-100">
+        <Chatbot />
         <Header></Header>
         <NavigationDrawer></NavigationDrawer>
-        <Chatbot></Chatbot>
         <router-view />
     </div>
 </template>
@@ -16,7 +16,7 @@ import ChatBot from "../components/Chatbot.vue";
 
 export default defineComponent({
     name: "Home",
-    components: {Header, NavigationDrawer, ChatBot}
+    components: { ChatBot, Header, NavigationDrawer }
 });
 
 </script>
