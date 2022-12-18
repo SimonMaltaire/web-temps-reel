@@ -2,7 +2,7 @@
     <v-app-bar title="MotoCycle Energy">
         <template v-slot:prepend>
             <v-app-bar-nav-icon
-                @click="display"
+                @click="emit('updateDisplay')"
             ></v-app-bar-nav-icon>
         </template>
         <template v-slot:append>
@@ -23,32 +23,29 @@
 
 <script lang="ts">
 import { storeToRefs } from 'pinia';
-import { defineComponent } from 'vue';
+import { defineComponent, inject } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../store/userStore';
 import SendNotificationDialog from './dialogs/SendNotificationDialog.vue';
-import { useDrawerNavigationStore } from "../store/drawerNavigationStore";
 
 export default defineComponent({
     name: "AppHeader",
     components: { SendNotificationDialog },
-    setup() {
+    setup(props, { emit }) {
         const router = useRouter();
         const userStore = useUserStore();
+
         const { isAuth, isAdmin } = storeToRefs(userStore);
+        const { user } = storeToRefs(userStore);
+
         const { logout } = userStore;
+
         const logoutUser = async () => {
             logout();
             router.push({ name: "signin" });
         };
 
-        const { user } = storeToRefs(userStore);
-
-        const drawerNavigationStore = useDrawerNavigationStore();
-
-        const { display } = drawerNavigationStore;
-
-        return { router, isAuth, isAdmin, logoutUser, display, user };
+        return { router, isAuth, isAdmin, logoutUser, user, emit };
     }
 });
 

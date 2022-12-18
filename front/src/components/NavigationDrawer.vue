@@ -1,6 +1,6 @@
 <template>
     <v-navigation-drawer
-        :rail="show"
+        :rail="display"
         permanent
       >
         <v-list-item
@@ -22,21 +22,25 @@
 
 <script lang="ts">
 import { storeToRefs } from 'pinia';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, toRefs, PropType } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../store/userStore';
-import { useDrawerNavigationStore } from "../store/drawerNavigationStore";
 
 export default defineComponent({
-    setup() {
+	props: {
+		display: {
+		type: Boolean as PropType<boolean>,
+			default: false
+		}
+	},
+    setup(props) {
         const router = useRouter();
         const userStore = useUserStore();
-        const drawerNavigationStore = useDrawerNavigationStore();
-
-        const { show } = storeToRefs(drawerNavigationStore);
         const { user } = storeToRefs(userStore);
 
-        return { router, user, show }
+        const { display } = toRefs(props);
+        
+        return { router, user, display }
     }
 });
 

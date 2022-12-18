@@ -1,11 +1,8 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, reactive } from 'vue';
-import Header from './components/Header.vue';
-import NavigationDrawer from './components/NavigationDrawer.vue';
 import { token } from './service';
 import { useUserStore } from './store/userStore';
 import {storeToRefs} from "pinia";
-import {useRouter} from "vue-router";
 import Chatbot from './components/Chatbot.vue';
 
 export default defineComponent({
@@ -16,6 +13,7 @@ export default defineComponent({
         const { isAdmin } = storeToRefs(userStore);
         
         const snackbar = ref<boolean>(false);
+
         const snackbarContent = reactive({
             title: '',
             content: ''
