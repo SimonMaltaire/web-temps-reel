@@ -15,7 +15,6 @@
         <v-list density="compact" nav>
           <v-list-item :to="{ name: 'topics' }" exact prepend-icon="mdi-folder" title="Topics" value="myfiles" ></v-list-item>
           <v-list-item :to="{ name: 'messages' }" exact prepend-icon="mdi-chat" title="Messages" value="shared"></v-list-item>
-          <v-list-item prepend-icon="mdi-star" title="Starred" value="starred"></v-list-item>
         </v-list>
     </v-navigation-drawer>
 </template>

@@ -19,4 +19,19 @@ router.get('/', async (req, res) => {
     res.send(users).status(200);
 });
 
+// Update user
+router.put('/', async (req, res) => {
+    console.log(req.user)
+    const user = await User.findByPk(req.user.id);
+    if (user) {
+        const userUpdated = await user.update({
+            isAvailable: req.body.isAvailable
+        });
+
+        res.send(userUpdated).status(200);
+    } else {
+        res.sendStatus(404);
+    }
+})
+
 export default router;

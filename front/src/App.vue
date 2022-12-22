@@ -2,15 +2,17 @@
 import { defineComponent, onMounted, ref, reactive } from 'vue';
 import { token } from './service';
 import { useUserStore } from './store/userStore';
-import {storeToRefs} from "pinia";
+import { storeToRefs } from "pinia";
 import Chatbot from './components/Chatbot.vue';
+import { joinRoom } from '.';
 
 export default defineComponent({
     components: { Chatbot },
     setup() {
         const userStore = useUserStore();
+
         const { signinWithToken } = userStore;
-        const { isAdmin } = storeToRefs(userStore);
+        const { isAdmin, user } = storeToRefs(userStore);
         
         const snackbar = ref<boolean>(false);
 
@@ -40,6 +42,9 @@ export default defineComponent({
             if (token.value) {
                 try {
                     await signinWithToken(token.value);
+                    if (user.value.isAvailable) {
+                        joinRoom("admin-room-requests");
+                    }
                 } catch (error) {
                     console.log(error)
                     token.value = "";

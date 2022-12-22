@@ -1,12 +1,15 @@
 import { defineStore } from 'pinia'
 import { computed, type ComputedRef, onMounted, ref } from "vue";
-import { security } from '../service/api';
+import { security, user as userApi } from '../service/api';
 import { token } from '../service';
+import { User } from '../interfaces/interfaces';
+import { joinRoom, leaveRoom } from '..';
 
 export const useUserStore = defineStore('user', () => {
     const { _signin, _signup, _signinWithToken } = security;
+    const { _updateUser } = userApi;
 
-    const user = ref<any>({});
+    const user = ref<User>({});
 
     const isAuth = computed(() => {
         return user.value && Object.keys(user.value).length > 1;
@@ -16,6 +19,28 @@ export const useUserStore = defineStore('user', () => {
         return isAuth && user.value.isAdmin;
     });
 
+    const isAvailable = computed(() => {
+        return user.value.isAvailable;
+    });
+
+    function toggleDisponibily() {
+        if (user.value.isAvailable) {
+            joinRoom("admin-room-requests");
+        } else {
+            leaveRoom("admin-room-requests")
+        }
+    }
+
+    async function updateUser(payload: { isAvailable: boolean }) {
+        try {
+            const res = await _updateUser(payload);
+            user.value = res;
+            toggleDisponibily();
+        } catch (e) {
+            throw e;
+        }
+    }
+    
     async function signin(payload: { email: string, password: string }) {
         try {
             const res = await _signin(payload);
@@ -54,5 +79,5 @@ export const useUserStore = defineStore('user', () => {
         }
     }
 
-    return { signin, signup, signinWithToken, logout, isAuth, isAdmin, user }
+    return { signin, signup, signinWithToken, logout, toggleDisponibily, updateUser, isAuth, isAdmin, isAvailable, user }
 });

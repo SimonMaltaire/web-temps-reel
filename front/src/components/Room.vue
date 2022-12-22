@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-btn @click="leaveRoom()" color="error" variant="outlined">Leave room</v-btn>
+        <v-btn @click="leave()" color="error" variant="outlined">Leave room</v-btn>
 
         <!-- <div v-for="member in members">
             {{ member.username }}
@@ -34,7 +34,7 @@ import { defineComponent, onMounted, ref, onUnmounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useTopicStore } from '../store/topicStore';
 import { useUserTopicsStore } from '../store/userTopicsStore';
-import { emitMessage, leave, joinRoom } from '../index';
+import { emitMessage, leaveRoom, joinRoom } from '../index';
 import { isArray } from '@vue/shared';
 import { useUserStore } from '../store/userStore';
 
@@ -92,9 +92,9 @@ export default defineComponent({
             message.value = "";
         }
 
-        const leaveRoom = async () => {
+        const leave = async () => {
             try {
-                leave(topicId.value);
+                leaveRoom(topicId.value);
                 await removeUserFromTopic(topicId.value);
                 router.push({ name: 'topics' });
             } catch (e) {
@@ -103,10 +103,10 @@ export default defineComponent({
         }
 
         onUnmounted(() => {
-            leave(topic.value.id);
+            leaveRoom(topic.value.id);
         });
 
-        return { leaveRoom, topic, message, sendMessage, members, messages, formatDate }
+        return { leave, topic, message, sendMessage, members, messages, formatDate }
     }
 })
 </script>

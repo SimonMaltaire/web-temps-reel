@@ -4,5 +4,6 @@ import Topic from './Topic.js';
 import UserTopics from './UserTopics.js';
 import Message from './Message.js';
 import Reservation from './Reservation.js';
+import Request from './Request.js';
 
-export { sequelize, User, Topic, UserTopics, Message, Reservation }
+export { sequelize, User, Topic, UserTopics, Message, Reservation, Request }
