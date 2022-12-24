@@ -5,6 +5,7 @@ import userTopicRouter from './userTopic.js';
 import topicMessagesRouter from './topicMessages.js';
 import reservationRouter from './reservation.js';
 import requestRouter from './request.js';
+import chatRouter from './chat.js';
 import { sseRouter, restRouter } from './sse.js';
 
-export { authRouter, topicRouter, userRouter, userTopicRouter, topicMessagesRouter, reservationRouter, requestRouter, sseRouter, restRouter }
+export { authRouter, topicRouter, userRouter, userTopicRouter, topicMessagesRouter, reservationRouter, requestRouter, sseRouter, restRouter, chatRouter }

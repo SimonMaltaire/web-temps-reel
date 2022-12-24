@@ -18,7 +18,7 @@
             </v-list-item>
         </v-list>
         <v-footer outlined app bottom fixed padless>
-            <v-text-field v-model="message" :placeholder="'Message @' + topic.name" @keyup.enter="sendMessage">
+            <v-text-field v-model="message" :placeholder="'Message @admin'" @keyup.enter="sendMessage">
 
             </v-text-field>
         </v-footer>
@@ -29,33 +29,28 @@
 import { storeToRefs } from 'pinia';
 import { defineComponent, onMounted, ref, onUnmounted, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useTopicStore } from '../store/topicStore';
-import { useUserTopicsStore } from '../store/userTopicsStore';
 import { leaveRoom, joinRoom } from '../index';
-import { emitMessage } from '../ws/message';
+import { emitChatMessage } from '../ws/chat';
 import { isArray } from '@vue/shared';
 import { useUserStore } from '../store/userStore';
+import { useChatStore } from '../store/chat';
 
 export default defineComponent({
-    name: "RoomComponent",
+    name: "Chat",
     setup() {
         const router = useRouter();
         const route = useRoute();
         const userStore = useUserStore();
-        const topicStore = useTopicStore();
-        const userTopicsStore = useUserTopicsStore();
+        const chatStore = useChatStore();
 
         const { user } = storeToRefs(userStore);
 
-        const { getTopic, getTopicMessages } = topicStore;
-        const { topic, messages } = storeToRefs(topicStore);
-        
-        const { removeUserFromTopic, topicMembers } = userTopicsStore;
-        const { members } = storeToRefs(userTopicsStore);
+        const { getChat, getChatMessages } = chatStore;
+        const { chat, messages } = storeToRefs(chatStore);
 
         const message = ref<string>('');
 
-        const topicId = computed((): string => {
+        const chatId = computed((): string => {
             if (!isArray(route.params.id)) {
                 return route.params.id;
             }
@@ -64,10 +59,9 @@ export default defineComponent({
 
         onMounted(async () => {
             try {
-                await getTopic(topicId.value);
-                await getTopicMessages(topicId.value);
-                await topicMembers(topicId.value);
-                joinRoom(topicId.value);
+                await getChat(chatId.value);
+                await getChatMessages(chatId.value);
+                joinRoom(chatId.value);
             } catch (e) {
                 console.error(e);
             }
@@ -86,25 +80,24 @@ export default defineComponent({
         }
 
         const sendMessage = () => {
-            emitMessage({ senderId: user.value.id ,topicId: topicId.value, content: message.value });
+            emitChatMessage({ senderId: user.value.id, chatId: chat.value.id, content: message.value });
             message.value = "";
         }
 
         const leave = async () => {
             try {
-                leaveRoom(topicId.value);
-                await removeUserFromTopic(topicId.value);
-                router.push({ name: 'topics' });
+                leaveRoom(chatId.value);
+                router.push({ name: 'messages' });
             } catch (e) {
                 console.error(e);
             }
         }
 
         onUnmounted(() => {
-            leaveRoom(topic.value.id);
+            leaveRoom(chat.value.id);
         });
 
-        return { leave, topic, message, sendMessage, members, messages, formatDate }
+        return { leave, chat, message, sendMessage, formatDate, messages }
     }
 })
 </script>

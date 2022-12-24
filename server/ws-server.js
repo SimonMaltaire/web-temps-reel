@@ -1,5 +1,5 @@
 import { Server } from "socket.io";
-import { User, Topic, Message, Request } from './models/index.js';
+import { User, Topic, Message, Request, Chat } from './models/index.js';
 
 const io = new Server(3002, {
     cors: {
@@ -10,21 +10,47 @@ const io = new Server(3002, {
 io.on("connection", (socket) => {
     console.log("web socket connected")
 
+    // Topic message
     socket.on("room-message", async (payload) => {
         try {
             const topic = await Topic.findByPk(payload.topicId);
-            const recipient = await User.findByPk(payload.recipientId);
+            const sender = await User.findByPk(payload.senderId);
             const message = await Message.create({
                 content: payload.content,
-                recipientId: recipient.id,
-                createdBy: recipient.username
+                senderId: sender.id,
+                createdBy: sender.username
             });
             await topic.addMessage(message);
             io.to(payload.topicId).emit("room-message", 
                 { 
                     content: message.content, 
-                    createdBy: recipient.username, 
-                    recipientId: recipient.id,
+                    createdBy: sender.username, 
+                    senderId: sender.id,
+                    createdAt: message.createdAt
+                })
+        } catch (e) {
+            console.log(e)
+            io.to(payload.topicId).emit("room-message-error", { message: "Error while sending message" })
+        }
+    });
+
+    // Chat message
+    socket.on("chat-message", async (payload) => {
+        console.log('chat-message', payload)
+        try {
+            const chat = await Chat.findByPk(payload.chatId);
+            const sender = await User.findByPk(payload.senderId);
+            const message = await Message.create({
+                content: payload.content,
+                senderId: sender.id,
+                createdBy: sender.username
+            });
+            await chat.addMessage(message);
+            io.to(payload.chatId).emit("chat-message", 
+                { 
+                    content: message.content, 
+                    createdBy: sender.username, 
+                    senderId: sender.id,
                     createdAt: message.createdAt
                 })
         } catch (e) {

@@ -7,8 +7,8 @@ const { json } = bodyParser;
 import './ws-server.js';
 import { checkAuthentification } from './middlewares/auth.js';
 
-import { authRouter, topicRouter, userRouter, userTopicRouter, topicMessagesRouter, reservationRouter, requestRouter, sseRouter, restRouter } from './routes/index.js';
-import { User, Topic, Message, Reservation, UserTopics, Request } from './models/index.js';
+import { authRouter, topicRouter, userRouter, userTopicRouter, topicMessagesRouter, reservationRouter, requestRouter, sseRouter, restRouter, chatRouter } from './routes/index.js';
+import { User, Topic, Message, Reservation, UserTopics, Request, Chat, UserChats } from './models/index.js';
 
 const app = express();
 const port = process.env.API_PORT || 4000;
@@ -28,6 +28,12 @@ User.hasMany(Reservation, { foreignKey: "userId" });
 Request.belongsTo(User);
 User.hasMany(Request, { foreignKey: "userId" });
 
+Message.belongsTo(Chat);
+Chat.hasMany(Message, { foreignKey: "chatId" });
+
+User.belongsToMany(Chat, { through: UserChats });
+Chat.belongsToMany(User, { through: UserChats });
+
 app.get('/', (req, res) => {
     res.send('ROOT');
 });
@@ -41,6 +47,7 @@ app.use('/reservations', checkAuthentification, reservationRouter);
 app.use('/admin-notifications', sseRouter);
 app.use('/notifications', restRouter);
 app.use('/requests', checkAuthentification, requestRouter);
+app.use('/chats', checkAuthentification, chatRouter);
 
 app.listen(port, () => {
     console.log('Server running on port : ', port);

@@ -5,6 +5,7 @@ import NotFound from "../404.vue";
 import Signin from '../components/Signin.vue';
 import Signup from '../components/Signup.vue';
 import Room from '../components/Room.vue';
+import Chat from '../components/Chat.vue';
 import Topics from "../components/Topics.vue";
 import Messages from "../components/Messages.vue";
 import Profile from "../components/Profile.vue";
@@ -16,6 +17,7 @@ const routes = [
             { path: '/topics', name: 'topics', component: Topics, meta: { requiresAuth: true } },
             { path: '/messages', name: 'messages', component: Messages, meta: { requiresAuth: true } },
             { path: '/room/:id', name: 'room', component: Room, meta: { requiresAuth: true } },
+            { path: '/chat/:id', name: 'chat', component: Chat, meta: { requiresAuth: true } },
             { path: '/profile', name: 'profile', component: Profile, meta: { requiresAuth: true } },
         ]
     },

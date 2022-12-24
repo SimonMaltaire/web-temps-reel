@@ -35,3 +35,4 @@ app.mount('#app');
 
 import './ws/message';
 import './ws/requests';
+import './ws/chat';
