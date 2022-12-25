@@ -15,7 +15,11 @@ router.get('/:id', async (req, res) => {
 
 // GET Users
 router.get('/', async (req, res) => {
-    const users = await User.findAll();
+    const users = await User.findAll({
+        where: {
+            isAdmin: false
+        }
+    });
     res.send(users).status(200);
 });
 

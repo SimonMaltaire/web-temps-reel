@@ -61,7 +61,7 @@ export default defineComponent({
     <v-app class="d-flex flex-column" app>
         <v-main>
             <Chatbot/>
-            <v-container fluid>
+            <v-container fluid class="container">
                 <router-view />
                 <v-snackbar v-if="!isAdmin" v-model="snackbar" multi-line>
                     <span class="font-weight-bold text-h6">{{ snackbarContent.title }}</span> - 
@@ -82,5 +82,7 @@ export default defineComponent({
 </template>
 
 <style scoped>
-
+.container {
+    height: calc(100vh - 64px);
+}
 </style>

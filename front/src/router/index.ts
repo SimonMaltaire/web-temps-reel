@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from "../views/Home.vue";
+import Users from '../views/Users.vue';
 import Session from "../views/Session.vue";
 import NotFound from "../404.vue";
 import Signin from '../components/Signin.vue';
@@ -16,6 +17,7 @@ const routes = [
         children: [
             { path: '/topics', name: 'topics', component: Topics, meta: { requiresAuth: true } },
             { path: '/messages', name: 'messages', component: Messages, meta: { requiresAuth: true } },
+            { path: '/users', name: 'users', component: Users, meta: { requiresAuth: true } },
             { path: '/room/:id', name: 'room', component: Room, meta: { requiresAuth: true } },
             { path: '/chat/:id', name: 'chat', component: Chat, meta: { requiresAuth: true } },
             { path: '/profile', name: 'profile', component: Profile, meta: { requiresAuth: true } },

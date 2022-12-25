@@ -15,3 +15,10 @@ export interface User {
     isAdmin: boolean
     isAvailable: boolean
 }
+
+export interface Message {
+    createdAt: string
+    content: string
+    id: string
+    createdBy: string
+}

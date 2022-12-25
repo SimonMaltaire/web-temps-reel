@@ -14,6 +14,7 @@ export const useChatStore = defineStore('chat', () => {
     async function createChat(payload: { userIds: String[] }) {
         try {
             const res = await _createChat(payload);
+            chat.value = res;
             return res;
         } catch (e) {
             throw e;

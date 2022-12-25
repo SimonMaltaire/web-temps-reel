@@ -28,10 +28,19 @@ User.hasMany(Reservation, { foreignKey: "userId" });
 Request.belongsTo(User);
 User.hasMany(Request, { foreignKey: "userId" });
 
-Message.belongsTo(Chat);
-Chat.hasMany(Message, { foreignKey: "chatId" });
+// Message.belongsTo(Chat);
+// Chat.hasMany(Message, { foreignKey: "chatId" });
 
+// User.belongsToMany(Chat, { through: UserChats });
+// Chat.belongsToMany(User, { through: UserChats });
+
+User.hasMany(Message);
 User.belongsToMany(Chat, { through: UserChats });
+
+Message.belongsTo(User);
+Message.belongsTo(Chat);
+
+Chat.hasMany(Message);
 Chat.belongsToMany(User, { through: UserChats });
 
 app.get('/', (req, res) => {

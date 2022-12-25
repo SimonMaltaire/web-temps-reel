@@ -2,6 +2,7 @@ import { Model, DataTypes, Sequelize } from "sequelize";
 import sequelize from "./db.js";
 import Topic from "./Topic.js";
 import Chat from "./Chat.js";
+import User from "./User.js";
 
 class Message extends Model {}
 
@@ -21,6 +22,13 @@ Message.init(
             },
             onDelete: 'cascade'
         },
+        userId: {
+            type: DataTypes.UUID,
+            references: {
+                model: User,
+                key: "id"
+            },
+        },
         chatId: {
             type: DataTypes.UUID,
             references: {
@@ -31,7 +39,7 @@ Message.init(
         },
         senderId: {
             type: DataTypes.UUID,
-            allowNull: true
+            allowNull: false
         },
         createdBy: {
             type: DataTypes.STRING,

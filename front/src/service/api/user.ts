@@ -3,6 +3,16 @@ import { client } from "../index";
 
 class User {
 
+    async _getNonAdminUsers(): Promise<any> {
+        try {
+            const uri = '/users'
+            const res = await client.get(uri);
+            return res.data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async _updateUser(payload: { isAvailable: boolean }): Promise<any> {
         try {
             const uri = '/users'
