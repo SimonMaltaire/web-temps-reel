@@ -1,25 +1,32 @@
 <template>
-    <div class="relative">
-        <v-list>
-            <v-list-item v-for="message in messages" :key="message.id" class="pt-2">
-                <v-list-item-title>
+    <div class="relative h-full">
+        <div
+            class="font-bold text-xl uppercase"
+        >
+            {{ name }}
+        </div>
+        <div class="">
+            <v-list class="overflow-auto bg-red-100 h-full">
+                <v-list-item v-for="message in messages" :key="message.id" class="pt-2 bg-red-100 ">
+                    <v-list-item-title>
                     <span class="font-bold">
                         {{ message.createdBy }}
                     </span>
-                    <span class="pl-3 font-italic text-body-2">
+                        <span class="pl-3 font-italic text-body-2">
                         {{ formatDate(message.createdAt) }}
                     </span>
-                </v-list-item-title>
-                <v-list-item-subtitle>
-                    {{ message.content }}
-                </v-list-item-subtitle>
-            </v-list-item>
-        </v-list>
-        <v-footer outlined absolute bottom padless class="absolute bottom-0 w-100">
+                    </v-list-item-title>
+                    <v-list-item-subtitle>
+                        {{ message.content }}
+                    </v-list-item-subtitle>
+                </v-list-item>
+            </v-list>
+        </div>
+        <div class="w-100">
             <v-text-field v-model="message" :placeholder="'Message @' + name" @keyup.enter="emitMessage">
 
             </v-text-field>
-        </v-footer>
+        </div>
     </div>
 </template>
 

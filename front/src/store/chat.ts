@@ -5,6 +5,8 @@ import { chatService } from "../service/api/index";
 export const useChatStore = defineStore('chat', () => {
     const { _createChat, _getChat, _getUserChats, _getChatMessages } = chatService;
 
+    const currentChatId = ref<string|null>(null);
+
     const userChats = ref<any>([]);
 
     const chat = ref<any>(null);
@@ -47,10 +49,12 @@ export const useChatStore = defineStore('chat', () => {
         try {
             const res = await _getUserChats();
             userChats.value = res;
+
+            console.log(userChats.value)
         } catch (e) {
             throw e;
         }
     }
 
-    return { createChat, getChat, getUserChats, addMessage, getChatMessages, userChats, chat, messages }
+    return { createChat, getChat, getUserChats, addMessage, getChatMessages, userChats, chat, messages, currentChatId }
 });

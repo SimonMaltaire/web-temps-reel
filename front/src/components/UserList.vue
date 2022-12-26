@@ -1,23 +1,28 @@
 <template>
-    <div>
-        <v-list>
-            <v-list-item 
-                v-for="(user, index) in users" 
-                :key="user.id" 
-                :value="user" 
-                active-color="primary"
-                @click="emit('rowClicked', user)"
-            >
-                <template v-slot:prepend>
-                    <v-avatar>
-                        <v-img :src="`https://xsgames.co/randomusers/assets/avatars/pixel/${index}.jpg`"></v-img>
-                    </v-avatar>
-                </template>
+    <v-navigation-drawer
+        :rail="showMessages"
+        permanent
+    >
+        <v-list-item exact prepend-icon="mdi-chat" append-icon="mdi-chevron-left" title="Messages" value="shared" class="h-14" @click="display">
+        </v-list-item>
 
-                <v-list-item-subtitle>{{ user.username }}</v-list-item-subtitle>
-            </v-list-item>
-        </v-list>
-    </div>
+        <v-divider></v-divider>
+
+        <v-list-item exact prepend-icon="mdi-chat" title="Rechercher" value="shared" class="h-14" @click="display" />
+
+        <v-list-item
+            v-for="(user, index) in users"
+            :title="user.username"
+            :subtitle="user.email"
+            :key="user.id"
+            :value="user"
+            active-color="primary"
+            class="px-2"
+            @click="emit('rowClicked', user)"
+            :prepend-avatar="`https://xsgames.co/randomusers/assets/avatars/pixel/${index}.jpg`"
+        >
+        </v-list-item>
+    </v-navigation-drawer>
 </template>
 
 <script lang="ts">
@@ -32,10 +37,17 @@ export default defineComponent({
         users: {
             type: Array as PropType<User[]>,
             default: () => []
+        },
+        showSearchUserModal: {
+            type: Boolean,
+            default: false
         }
     },
     setup(props, { emit }) {
-        return { emit }
+        const showMessages = ref(true);
+        const display = () => showMessages.value = !showMessages.value;
+
+        return { emit, display, showMessages }
     }
 });
 
