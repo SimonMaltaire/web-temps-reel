@@ -4,12 +4,13 @@
         permanent
       >
         <v-list-item
-          prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
+          :prepend-avatar="`https://xsgames.co/randomusers/assets/avatars/pixel/43.jpg`"
           :title="user.username"
           :subtitle="user.email"
           nav
           class="py-2"
-        ></v-list-item>
+        />
+
         <v-divider></v-divider>
 
         <v-list density="compact" nav>
@@ -40,7 +41,11 @@ export default defineComponent({
 
         const { display } = toRefs(props);
         
-        return { router, user, display }
+		const randomBetweenOneAndFifty = () => {
+			return Math.round(Math.random() * 50);
+		}
+
+        return { router, user, display, randomBetweenOneAndFifty }
     }
 });
 

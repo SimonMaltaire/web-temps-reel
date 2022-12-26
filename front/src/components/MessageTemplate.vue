@@ -1,13 +1,13 @@
 <template>
     <div class="relative h-full">
         <div
-            class="font-bold text-xl uppercase"
+            class="font-bold text-xl uppercase pl-2"
         >
             {{ name }}
         </div>
         <div class="">
-            <v-list class="overflow-auto bg-red-100 h-full">
-                <v-list-item v-for="message in messages" :key="message.id" class="pt-2 bg-red-100 ">
+            <v-list class="overflow-auto h-full rounded-lg">
+                <v-list-item v-for="message in messages" :key="message.id" class="pt-2 bg-gray-100 ">
                     <v-list-item-title>
                     <span class="font-bold">
                         {{ message.createdBy }}
@@ -22,7 +22,7 @@
                 </v-list-item>
             </v-list>
         </div>
-        <div class="w-100">
+        <div class="w-100 absolute bottom-0">
             <v-text-field v-model="message" :placeholder="'Message @' + name" @keyup.enter="emitMessage">
 
             </v-text-field>

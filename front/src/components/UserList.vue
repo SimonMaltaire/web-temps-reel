@@ -3,15 +3,15 @@
         :rail="showMessages"
         permanent
     >
-        <v-list-item exact prepend-icon="mdi-chat" append-icon="mdi-chevron-left" title="Messages" value="shared" class="h-14" @click="display">
+        <v-list-item exact prepend-icon="mdi-unfold-more-vertical" append-icon="mdi-chevron-left" title="Messages" value="shared" class="h-14" @click="display">
         </v-list-item>
 
         <v-divider></v-divider>
 
-        <v-list-item exact prepend-icon="mdi-chat" title="Rechercher" value="shared" class="h-14" @click="display" />
+        <v-text-field prepend-inner-icon="mdi-magnify" v-model="search" placeholder="Search"></v-text-field>
 
         <v-list-item
-            v-for="(user, index) in users"
+            v-for="(user, index) in filteredUsers"
             :title="user.username"
             :subtitle="user.email"
             :key="user.id"
@@ -27,7 +27,7 @@
 
 <script lang="ts">
 
-import { defineComponent, ref, PropType } from 'vue';
+import { defineComponent, ref, PropType, computed, toRefs } from 'vue';
 import { User } from '../interfaces/interfaces';
 
 
@@ -44,10 +44,20 @@ export default defineComponent({
         }
     },
     setup(props, { emit }) {
+        const { users } = toRefs(props);
+
         const showMessages = ref(true);
         const display = () => showMessages.value = !showMessages.value;
 
-        return { emit, display, showMessages }
+        const search = ref<string>('');
+
+        const filteredUsers = computed(() => {
+            return users.value.filter(user => {
+                return user.username.indexOf(search.value) !== -1 ||
+                user.email.indexOf(search.value) !== -1
+            })
+        })
+        return { emit, display, showMessages, filteredUsers, search }
     }
 });
 
