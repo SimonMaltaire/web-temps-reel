@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
 import { User, Topic, Message, Request, Chat } from './models/index.js';
-
+import { Op } from "sequelize";
 const io = new Server(3002, {
     cors: {
         origin: "http://localhost:3000"
@@ -62,6 +62,7 @@ io.on("connection", (socket) => {
     socket.on('request-admin', async (payload) => {
         try {
             const user = await User.findByPk(payload.userId);
+            
             if (!user) { 
                 return;
             }
@@ -69,7 +70,9 @@ io.on("connection", (socket) => {
             const userRequests = await Request.findOne({
                 where: {
                     userId: user.id,
-                    status: 'PENDING'
+                    status: {
+                        [Op.or]: [Request.REQUEST_STATUS.PENDING, Request.REQUEST_STATUS.ACCEPTED]
+                    }
                 }
             });
 
@@ -78,12 +81,11 @@ io.on("connection", (socket) => {
                 throw 'You already have a pending request, please wait !';
             } else {
                 const request = await Request.create({
-                    status: payload.status
+                    status: Request.REQUEST_STATUS[payload.status] ? Request.REQUEST_STATUS[payload.status] : 'PENDING'
                 });
                 await user.addRequest(request);
         
                 request.dataValues.user = user.dataValues;
-                console.log(request)
                 socket.to("admin-room-requests").emit("request-admin-success", { request: request });
 
                 socket.emit("request-sent", {   
@@ -99,16 +101,26 @@ io.on("connection", (socket) => {
         try {
             console.log('update-request')
             const user = await User.findByPk(payload.userId);
+            const chat = await Chat.findByPk(payload.chatId);
+
             if (!user) { 
                 return;
             }
 
-            const userRequest = await Request.findByPk(payload.requestId);
+            let userRequest;
+
+            if (payload.requestId) {
+                userRequest = await Request.findByPk(payload.requestId);
+            } else {
+                userRequest = await chat.getRequest();
+            }
 
             if (userRequest) {
                 const updatedRequest = await userRequest.update({
-                    status: payload.status
+                    status: Request.REQUEST_STATUS[payload.status] ? Request.REQUEST_STATUS[payload.status] : 'COMPLETED'
                 });
+
+                await chat.setRequest(userRequest);
 
                 io.to("admin-room-requests").emit("request-updated", updatedRequest);
             } else {

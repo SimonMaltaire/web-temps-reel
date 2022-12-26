@@ -21,8 +21,18 @@ class Chat {
         } catch (error) {
             throw error;
         }
-    } 
-    
+    }
+
+    async _getRequestAdmin(): Promise<any> {
+        try {
+            const uri = `${namespace}/requests/admin`;
+            const res = await client.get(uri);
+            return res.data;
+        } catch (error) {
+            throw error;
+        }
+    }  
+
     async _getChat(chatId: string): Promise<any> {
         try {
             const uri = `${namespace}/${chatId}`;

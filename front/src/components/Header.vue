@@ -138,9 +138,9 @@ export default defineComponent({
         }
 
         const acceptRequest = async (request: Request) => {
-            updateRequestWS({ userId: user.value.id, requestId: request.id, status: 'ACCEPTED' });
             const chat = await createChat({ userIds: [user.value.id, request.user.id]});
-            await getUserChats();
+            updateRequestWS({ userId: user.value.id, requestId: request.id, chatId: chat.id, status: 'ACCEPTED' });
+            // await getUserChats();
             // Send notif to users 'Admin accepted your request, click to access chats'
             // Get chats
             // Create a new chat frontend 
@@ -149,7 +149,7 @@ export default defineComponent({
         }
 
         const denyRequest = async (request: Request) => {
-            updateRequestWS({ userId: user.value.id, requestId: request.id, status: 'REFUSED' });
+            updateRequestWS({ userId: user.value.id, requestId: request.id, chatId: '', status: 'REFUSED' });
         }
 
         return { router, isAuth, isAdmin, logoutUser, user, emit, sendRequest, requests, acceptRequest, updateUser, denyRequest, isAvailable };

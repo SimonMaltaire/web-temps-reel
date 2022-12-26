@@ -1,5 +1,9 @@
 <template>
-    <UserList v-if="users.length > 0" :users="users.filter(u => u.id !== user.id)" @rowClicked="setSelectedUser"/>
+    <UserList 
+        v-if="users.length > 0 || acceptedRequests.length > 0" 
+        :users="isAdmin ? acceptedRequests.map(request => request.user) : users.filter(u => u.id !== user.id)" 
+        @rowClicked="setSelectedUser"
+    />
     <div v-else>No users</div>
 
     <MessageTemplate
@@ -8,7 +12,11 @@
         :name="selecteUser.username"
         @sendMessage="sendMessage"
         class="h-100"
-    />
+    >
+        <template #header v-if="isAdmin">
+            <v-btn @click="closeRequest" variant="outlined" color="red">Close request</v-btn>
+        </template>
+    </MessageTemplate>
     <div v-else>
         Select a discussion
     </div>
@@ -23,8 +31,10 @@ import UserList from '../components/UserList.vue';
 import { User } from '../interfaces/interfaces';
 import { useUserStore } from '../store/userStore';
 import { useChatStore } from '../store/chat';
+import { useRequestStore } from '../store/requests';
 import { emitChatMessage } from '../ws/chat';
 import { joinRoom } from '..';
+import { updateRequestWS } from '../ws/requests';
 
 export default defineComponent({
     name: "Users",
@@ -32,12 +42,16 @@ export default defineComponent({
     setup() {
         const userStore = useUserStore();
         const chatStore = useChatStore();
+        const requestStore = useRequestStore();
 
-        const { getNonAdminUsers} = userStore;
-        const { users, user } = storeToRefs(userStore);
+        const { getNonAdminUsers, getUser } = userStore;
+        const { users, user, isAdmin } = storeToRefs(userStore);
 
-        const { createChat, getChatMessages } = chatStore;
+        const { createChat, getChatMessages, getRequestAdmin } = chatStore;
         const { messages, chat } = storeToRefs(chatStore);
+
+        const { getAcceptedRequests } = requestStore;
+        const { acceptedRequests } = storeToRefs(requestStore);
 
         const selecteUser = ref();
 
@@ -56,15 +70,27 @@ export default defineComponent({
             emitChatMessage({ senderId: user.value.id, chatId: chat.value.id, content: message})
         }
 
+        const closeRequest = () => {
+            updateRequestWS({ userId: user.value.id, chatId: chat.value.id, status: 'COMPLETED' });
+            // Set request to COMPLETED
+        }
+
         onMounted(async () => {
             try {
-                await getNonAdminUsers();
+                await getUser();
+                if (user.value.isAdmin) {
+                    await getAcceptedRequests();
+                } else {
+                    await getNonAdminUsers();
+                    const requestAdmin = await getRequestAdmin();
+                    users.value.unshift(requestAdmin[0]);
+                }
             } catch (e) {
                 console.error(e);
             }
         });
 
-        return { users, setSelectedUser, selecteUser, sendMessage, messages, user }
+        return { users, setSelectedUser, selecteUser, acceptedRequests, closeRequest, sendMessage, messages, user, isAdmin }
     }
 });
 

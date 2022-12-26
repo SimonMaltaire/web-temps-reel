@@ -1,14 +1,14 @@
 import { Model, DataTypes, Sequelize } from "sequelize";
-import { sequelize, User } from './index.js';
+import { Chat, sequelize, User } from './index.js';
 
 class Request extends Model {}
 
 Request.REQUEST_STATUS = {
-    pending: 'PENDING',
-    refused: 'REFUSED',
-    accepted: 'ACCEPTED'
+    PENDING: 'PENDING',
+    REFUSED: 'REFUSED',
+    ACCEPTED: 'ACCEPTED',
+    COMPLETED: 'COMPLETED'
 }
-
 
 Request.init(
     {
@@ -22,6 +22,13 @@ Request.init(
             type: DataTypes.UUID,
             references: {
                 model: User,
+                key: 'id'
+            }
+        },
+        chatId: {
+            type: DataTypes.UUID,
+            references: {
+                model: Chat,
                 key: 'id'
             }
         },

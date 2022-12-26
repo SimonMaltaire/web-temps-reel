@@ -1,9 +1,12 @@
 <template>
     <div class="relative h-full">
-        <div
-            class="font-bold text-xl uppercase pl-2"
-        >
-            {{ name }}
+        <div class="flex justify-between items-center gap-4">
+            <div
+                class="font-bold text-xl uppercase pl-2"
+            >
+                {{ name }}
+            </div>
+            <slot name="header"></slot>
         </div>
         <div class="">
             <v-list class="overflow-auto h-full rounded-lg">

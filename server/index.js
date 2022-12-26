@@ -17,30 +17,25 @@ app.use(cors());
 app.use(json());
 
 User.belongsToMany(Topic, { through: UserTopics });
-Topic.belongsToMany(User, { through: UserTopics });
+User.belongsToMany(Chat, { through: UserChats });
+User.hasMany(Request, { foreignKey: "userId" });
+User.hasMany(Reservation, { foreignKey: "userId" });
+User.hasMany(Message);
 
-Message.belongsTo(Topic);
+Topic.belongsToMany(User, { through: UserTopics });
 Topic.hasMany(Message, { foreignKey: "topicId" });
 
-Reservation.belongsTo(User);
-User.hasMany(Reservation, { foreignKey: "userId" });
-
-Request.belongsTo(User);
-User.hasMany(Request, { foreignKey: "userId" });
-
-// Message.belongsTo(Chat);
-// Chat.hasMany(Message, { foreignKey: "chatId" });
-
-// User.belongsToMany(Chat, { through: UserChats });
-// Chat.belongsToMany(User, { through: UserChats });
-
-User.hasMany(Message);
-User.belongsToMany(Chat, { through: UserChats });
-
+Message.belongsTo(Topic);
 Message.belongsTo(User);
 Message.belongsTo(Chat);
 
+Reservation.belongsTo(User);
+
+Request.belongsTo(User);
+Request.belongsTo(Chat);
+
 Chat.hasMany(Message);
+Chat.hasOne(Request);
 Chat.belongsToMany(User, { through: UserChats });
 
 app.get('/', (req, res) => {

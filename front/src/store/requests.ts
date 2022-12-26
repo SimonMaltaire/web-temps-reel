@@ -4,14 +4,24 @@ import { request } from "../service/api/index";
 import { Request } from '../interfaces/interfaces';
 
 export const useRequestStore = defineStore('request', () => {
-    const { _getRequests } = request;
+    const { _getRequests, _getAcceptedRequests } = request;
 
     const requests = ref<Request[]>([]);
+    const acceptedRequests = ref<Request[]>([]);
 
     async function getRequests() {
         try {
             const res = await _getRequests();
             requests.value = res;
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    async function getAcceptedRequests() {
+        try {
+            const res = await _getAcceptedRequests();
+            acceptedRequests.value = res;
         } catch (e) {
             throw e;
         }
@@ -34,5 +44,5 @@ export const useRequestStore = defineStore('request', () => {
         }
     }
 
-    return { getRequests, removeRequest, addRequest, requests }
+    return { getRequests, removeRequest, addRequest, requests, acceptedRequests, getAcceptedRequests }
 });

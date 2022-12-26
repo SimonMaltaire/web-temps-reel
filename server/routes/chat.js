@@ -3,6 +3,7 @@ import express from 'express';
 import isAdmin from '../middlewares/isAdmin.js';
 import Chat from '../models/Chat.js';
 import User from '../models/User.js';
+import Request from '../models/Request.js';
 import UserChats from '../models/UserChats.js';
 import { Op } from 'sequelize';
 
@@ -64,6 +65,33 @@ router.get('/:id/messages', async (req, res) => {
     }
 });
 
+router.get('/requests/admin', async (req, res) => {
+    const chats = await Chat.findAll({
+        include: {
+            model: UserChats,
+            where: {
+                userId: req.user.id
+            }
+        },
+        include: {
+            model: Request,
+            where: {
+                status: Request.REQUEST_STATUS.ACCEPTED
+            },
+        }
+    });
+
+    const userIds = chats.map(chat => chat.name.split('.').filter(userId => userId !== req.user.id)).flat();
+    let users = []; 
+    // Client can only have one request at the state of PENDING or ACCEPTED, so they can only speak to one ADMIN
+    // This stuff is actually useless ATM
+    for(let id of userIds) {
+        const user = await User.findByPk(id);
+        users.push(user.dataValues)
+    } 
+
+    res.send(users).status(200);
+})
 
 // GET User chats
 router.get('/', async (req, res) => {

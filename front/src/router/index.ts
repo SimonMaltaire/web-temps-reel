@@ -16,7 +16,7 @@ const routes = [
     { path: '/', name: 'home', component: Home, meta: { requiresAuth: true },
         children: [
             { path: '/topics', name: 'topics', component: Topics, meta: { requiresAuth: true } },
-            { path: '/messages', name: 'messages', component: Messages, meta: { requiresAuth: true } },
+            { path: '/messages', name: 'messages', component: Users, meta: { requiresAuth: true } },
             { path: '/users', name: 'users', component: Users, meta: { requiresAuth: true } },
             { path: '/room/:id', name: 'room', component: Room, meta: { requiresAuth: true } },
             { path: '/chat/:id', name: 'chat', component: Chat, meta: { requiresAuth: true } },

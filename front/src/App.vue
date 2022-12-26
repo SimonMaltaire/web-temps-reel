@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, onMounted, ref, reactive } from 'vue';
+import { defineComponent, onMounted, onBeforeMount, ref, reactive } from 'vue';
 import { token } from './service';
 import { useUserStore } from './store/userStore';
 import { storeToRefs } from "pinia";
@@ -21,6 +21,20 @@ export default defineComponent({
             content: ''
         });
 
+        onBeforeMount(async () => {
+            if (token.value) {
+                try {
+                    await signinWithToken(token.value);
+                    if (user.value.isAvailable) {
+                        joinRoom("admin-room-requests");
+                    }
+                } catch (error) {
+                    console.log(error)
+                    token.value = "";
+                }
+            }
+        });
+
         onMounted(async () => {
             const source = new EventSource('http://localhost:4000/admin-notifications');
 
@@ -38,18 +52,6 @@ export default defineComponent({
                 snackbarContent.content = e.content;
                 snackbar.value = true;
             });
-
-            if (token.value) {
-                try {
-                    await signinWithToken(token.value);
-                    if (user.value.isAvailable) {
-                        joinRoom("admin-room-requests");
-                    }
-                } catch (error) {
-                    console.log(error)
-                    token.value = "";
-                }
-            }
         });
 
         return { snackbar, snackbarContent, isAdmin }

@@ -7,7 +7,7 @@ import { joinRoom, leaveRoom } from '..';
 
 export const useUserStore = defineStore('user', () => {
     const { _signin, _signup, _signinWithToken } = security;
-    const { _updateUser, _getNonAdminUsers } = userApi;
+    const { _updateUser, _getNonAdminUsers, _getUser } = userApi;
 
     const user = ref<User>({});
     const users = ref<User[]>([]);
@@ -29,6 +29,14 @@ export const useUserStore = defineStore('user', () => {
             joinRoom("admin-room-requests");
         } else {
             leaveRoom("admin-room-requests")
+        }
+    }
+
+    async function getUser() {
+        try {
+            const res = await _getUser();
+        } catch (e) {
+            throw e;
         }
     }
 
@@ -89,5 +97,5 @@ export const useUserStore = defineStore('user', () => {
         }
     }
 
-    return { signin, signup, signinWithToken, users, logout, toggleDisponibily, getNonAdminUsers, updateUser, isAuth, isAdmin, isAvailable, user }
+    return { signin, signup, signinWithToken, users, logout, getUser, toggleDisponibily, getNonAdminUsers, updateUser, isAuth, isAdmin, isAvailable, user }
 });

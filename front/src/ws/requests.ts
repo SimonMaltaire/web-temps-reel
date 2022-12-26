@@ -9,7 +9,7 @@ export const requestAdmin = (payload: { userId: string }) => {
     });
 };
 
-export const updateRequestWS = (payload: { userId: string, requestId: string, status: string }) => {
+export const updateRequestWS = (payload: { userId: string, requestId?: string, chatId: string, status: string }) => {
     socket.emit("update-request", payload);
 }
 

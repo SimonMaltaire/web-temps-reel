@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { chatService } from "../service/api/index";
 
 export const useChatStore = defineStore('chat', () => {
-    const { _createChat, _getChat, _getUserChats, _getChatMessages } = chatService;
+    const { _createChat, _getChat, _getUserChats, _getChatMessages, _getRequestAdmin } = chatService;
 
     const currentChatId = ref<string|null>(null);
 
@@ -17,6 +17,15 @@ export const useChatStore = defineStore('chat', () => {
         try {
             const res = await _createChat(payload);
             chat.value = res;
+            return res;
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    async function getRequestAdmin() {
+        try {
+            const res = await _getRequestAdmin();
             return res;
         } catch (e) {
             throw e;
@@ -56,5 +65,5 @@ export const useChatStore = defineStore('chat', () => {
         }
     }
 
-    return { createChat, getChat, getUserChats, addMessage, getChatMessages, userChats, chat, messages, currentChatId }
+    return { createChat, getChat, getUserChats, getRequestAdmin, addMessage, getChatMessages, userChats, chat, messages, currentChatId }
 });

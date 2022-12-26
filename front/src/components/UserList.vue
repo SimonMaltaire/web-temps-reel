@@ -12,15 +12,20 @@
 
         <v-list-item
             v-for="(user, index) in filteredUsers"
-            :title="user.username"
-            :subtitle="user.email"
             :key="user.id"
             :value="user"
+            :color="user.isAdmin ? 'red' : ''"
             active-color="primary"
             class="px-2"
             @click="emit('rowClicked', user)"
             :prepend-avatar="`https://xsgames.co/randomusers/assets/avatars/pixel/${index}.jpg`"
         >
+            <v-list-item-title>
+                {{ user.username }} {{ user.isAdmin ? '(ADMIN)' : ''}}
+            </v-list-item-title>
+            <v-list-item-subtitle>
+                {{ user.email }}
+            </v-list-item-subtitle>
         </v-list-item>
     </v-navigation-drawer>
 </template>
