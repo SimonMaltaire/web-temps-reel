@@ -63,7 +63,7 @@ export default defineComponent({
 <template>
     <v-app class="d-flex flex-column" app>
         <v-main>
-            <Chatbot class="z-50"/>
+            <Chatbot v-if="!isAdmin" class="z-50"/>
             <v-container fluid class="container">
                 <router-view />
                 <v-snackbar v-if="!isAdmin" v-model="snackbar" multi-line>

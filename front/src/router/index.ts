@@ -9,17 +9,19 @@ import Room from '../components/Room.vue';
 import Chat from '../components/Chat.vue';
 import Topics from "../components/Topics.vue";
 import Profile from "../components/Profile.vue";
+import Details from "../components/Details.vue";
 import { token } from "../service";
 
 const routes = [
     { path: '/', name: 'home', component: Home, meta: { requiresAuth: true },
         children: [
-            { path: '/topics', name: 'topics', component: Topics, meta: { requiresAuth: true } },
-            { path: '/messages', name: 'messages', component: Users, meta: { requiresAuth: true } },
-            { path: '/users', name: 'users', component: Users, meta: { requiresAuth: true } },
-            { path: '/room/:id', name: 'room', component: Room, meta: { requiresAuth: true } },
-            { path: '/chat/:id', name: 'chat', component: Chat, meta: { requiresAuth: true } },
-            { path: '/profile', name: 'profile', component: Profile, meta: { requiresAuth: true } },
+            { path: '/', name: 'details', component: Details, meta: { requiresAuth: true }},
+            { path: '/topics', name: 'topics', component: Topics, meta: { requiresAuth: true }},
+            { path: '/messages', name: 'messages', component: Users, meta: { requiresAuth: true }},
+            { path: '/users', name: 'users', component: Users, meta: { requiresAuth: true }},
+            { path: '/room/:id', name: 'room', component: Room, meta: { requiresAuth: true }},
+            { path: '/chat/:id', name: 'chat', component: Chat, meta: { requiresAuth: true }},
+            { path: '/profile', name: 'profile', component: Profile, meta: { requiresAuth: true }},
         ]
     },
     { path: '/session', name: 'session', component: Session, meta: { requiresAuth: false }, redirect: 'signin',

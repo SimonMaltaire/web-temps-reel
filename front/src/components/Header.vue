@@ -1,10 +1,13 @@
 <template>
-    <v-app-bar title="MotoCycle Energy">
+    <v-app-bar>
         <template v-slot:prepend>
             <v-app-bar-nav-icon
                 @click="emit('updateDisplay')"
             ></v-app-bar-nav-icon>
         </template>
+        <v-app-bar-title @click="router.push({ name: 'details' })" class="cursor-pointer">
+            MotoCycle Energy
+        </v-app-bar-title>
         <template v-slot:append>
             <template v-if="isAdmin">
                 <SendNotificationDialog />
@@ -112,7 +115,7 @@ export default defineComponent({
         const { getRequests } = requestStore;
         const { requests } = storeToRefs(requestStore);
 
-        const { createChat, getUserChats } = chatStore;
+        const { createChat } = chatStore;
 
         onMounted(async () => {
             if (isAdmin) {
@@ -140,12 +143,6 @@ export default defineComponent({
         const acceptRequest = async (request: Request) => {
             const chat = await createChat({ userIds: [user.value.id, request.user.id]});
             updateRequestWS({ userId: user.value.id, requestId: request.id, chatId: chat.id, status: 'ACCEPTED' });
-            // await getUserChats();
-            // Send notif to users 'Admin accepted your request, click to access chats'
-            // Get chats
-            // Create a new chat frontend 
-            // Click on it, joinRoom(chatId);
-            // WS for messages
         }
 
         const denyRequest = async (request: Request) => {

@@ -11,11 +11,10 @@
 import { defineComponent, ref } from 'vue';
 import Header from "../components/Header.vue";
 import NavigationDrawer from "../components/NavigationDrawer.vue";
-import ChatBot from "../components/Chatbot.vue";
 
 export default defineComponent({
     name: "Home",
-    components: { ChatBot, Header, NavigationDrawer },
+    components: { Header, NavigationDrawer },
     setup() {
         const display = ref<boolean>(false);
 
