@@ -36,6 +36,7 @@ socket.on("request-accepted-by-admin", async payload => {
     const { users } = storeToRefs(userStore);
     const requestAdmin = await getRequestAdmin();
     users.value.unshift(requestAdmin[0]);
+    createToast("Your request have been accepted by an admin, go to message", { position: "bottom-right", type: "success" });
 });
 
 socket.on("request-completed-by-admin", async payload => {

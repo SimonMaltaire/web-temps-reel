@@ -18,7 +18,7 @@
             <v-btn @click="closeRequest" variant="outlined" color="red">Close request</v-btn>
         </template>
     </MessageTemplate>
-    <div v-else>
+    <div v-else-if="!selecteUser && users.length !== 0">
         Select a discussion
     </div>
 </template>

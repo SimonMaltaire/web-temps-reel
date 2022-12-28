@@ -8,7 +8,7 @@
             </div>
             <slot name="header"></slot>
         </div>
-        <div class="">
+        <div>
             <v-list class="overflow-auto h-full rounded-lg">
                 <v-list-item v-for="message in messages" :key="message.id" class="pt-2 bg-gray-100 ">
                     <v-list-item-title>
