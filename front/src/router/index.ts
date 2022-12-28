@@ -8,7 +8,6 @@ import Signup from '../components/Signup.vue';
 import Room from '../components/Room.vue';
 import Chat from '../components/Chat.vue';
 import Topics from "../components/Topics.vue";
-import Messages from "../components/Messages.vue";
 import Profile from "../components/Profile.vue";
 import { token } from "../service";
 

@@ -25,6 +25,7 @@ export default defineComponent({
             if (token.value) {
                 try {
                     await signinWithToken(token.value);
+                    joinRoom(user.value.id);
                     if (user.value.isAvailable) {
                         joinRoom("admin-room-requests");
                     }

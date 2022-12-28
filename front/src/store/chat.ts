@@ -58,8 +58,6 @@ export const useChatStore = defineStore('chat', () => {
         try {
             const res = await _getUserChats();
             userChats.value = res;
-
-            console.log(userChats.value)
         } catch (e) {
             throw e;
         }

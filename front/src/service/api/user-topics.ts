@@ -46,7 +46,6 @@ class UserTopics {
     async _getTopics(): Promise<any> {
         try {
             const uri = namespace;
-            console.log(uri)
             const res = await client.get(uri);
             return res.data;
         } catch (error) {

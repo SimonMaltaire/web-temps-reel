@@ -1,7 +1,8 @@
 <template>
     <UserList 
-        v-if="users.length > 0 || acceptedRequests.length > 0" 
-        :users="isAdmin ? acceptedRequests.map(request => request.user) : users.filter(u => u.id !== user.id)" 
+        v-if="(users.length > 0 || acceptedRequests.length > 0) && user" 
+        :users="isAdmin ? acceptedRequests.map(request => request.user) 
+                : users.filter(u => u.id !== user.id)" 
         @rowClicked="setSelectedUser"
     />
     <div v-else>No users</div>
@@ -55,6 +56,11 @@ export default defineComponent({
 
         const selecteUser = ref();
 
+        const filteredUsers = () => {
+            return isAdmin ? acceptedRequests.value.map(request => request.user) 
+                : users.value.filter(u => u.id !== user.value.id)
+        };
+
         const setSelectedUser = async (userToChatWith: User) => {
             selecteUser.value = userToChatWith;
             try {
@@ -72,7 +78,7 @@ export default defineComponent({
 
         const closeRequest = () => {
             updateRequestWS({ userId: user.value.id, chatId: chat.value.id, status: 'COMPLETED' });
-            // Set request to COMPLETED
+            selecteUser.value = null;
         }
 
         onMounted(async () => {
@@ -83,14 +89,16 @@ export default defineComponent({
                 } else {
                     await getNonAdminUsers();
                     const requestAdmin = await getRequestAdmin();
-                    users.value.unshift(requestAdmin[0]);
+                    if (requestAdmin.length > 0) {
+                        users.value.unshift(requestAdmin[0]);
+                    }
                 }
             } catch (e) {
                 console.error(e);
             }
         });
 
-        return { users, setSelectedUser, selecteUser, acceptedRequests, closeRequest, sendMessage, messages, user, isAdmin }
+        return { users, setSelectedUser, filteredUsers, selecteUser, acceptedRequests, closeRequest, sendMessage, messages, user, isAdmin }
     }
 });
 

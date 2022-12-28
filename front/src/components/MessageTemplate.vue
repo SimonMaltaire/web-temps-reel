@@ -1,5 +1,5 @@
 <template>
-    <div class="relative h-full">
+    <div class="relative h-full pb-[78px]">
         <div class="flex justify-between items-center gap-4">
             <div
                 class="font-bold text-xl uppercase pl-2"

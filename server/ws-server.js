@@ -122,6 +122,12 @@ io.on("connection", (socket) => {
 
                 await chat.setRequest(userRequest);
 
+                if (Request.REQUEST_STATUS[payload.status] === 'ACCEPTED') {
+                    socket.to(userRequest.userId).emit("request-accepted-by-admin", { chat: chat.id, request: userRequest.id })
+                } else if (Request.REQUEST_STATUS[payload.status] === 'COMPLETED') {
+                    socket.to(userRequest.userId).emit("request-completed-by-admin", { chat: chat.id, request: userRequest.id })
+                }
+
                 io.to("admin-room-requests").emit("request-updated", updatedRequest);
             } else {
                 socket.emit("request-updated-error", "Error while finding pending request");

@@ -32,6 +32,13 @@ export const useUserStore = defineStore('user', () => {
         }
     }
 
+    function removeAdminIfExist() {
+        const adminIndex = users.value.findIndex(user => user.isAdmin === true);
+        if (adminIndex !== -1) {
+            users.value.splice(adminIndex, 1)
+        }
+    }
+
     async function getUser() {
         try {
             const res = await _getUser();
@@ -97,5 +104,5 @@ export const useUserStore = defineStore('user', () => {
         }
     }
 
-    return { signin, signup, signinWithToken, users, logout, getUser, toggleDisponibily, getNonAdminUsers, updateUser, isAuth, isAdmin, isAvailable, user }
+    return { signin, signup, signinWithToken, users, removeAdminIfExist, logout, getUser, toggleDisponibily, getNonAdminUsers, updateUser, isAuth, isAdmin, isAvailable, user }
 });
