@@ -73,3 +73,21 @@ SECRET="secret_token"
 `docker-compose down`
 
 docker-compose -f docker-compose-mac.yml up
+
+## Generate fake data locally
+`npm run seed`
+### Using docker
+`docker compose exec server npm run seed`
+
+This command will drop the current data and generate new ones. 
+
+### Admin account
+```text
+email: admin@motocycle.com
+password: password
+```
+### Client account
+```text
+email: test@testify.fr
+password: password
+```

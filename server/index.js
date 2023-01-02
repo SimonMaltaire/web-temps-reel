@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 const { json } = bodyParser;
 import './ws-server.js';
 import { checkAuthentification } from './middlewares/auth.js';
-
+import { faker } from '@faker-js/faker';
 import { authRouter, topicRouter, userRouter, userTopicRouter, topicMessagesRouter, reservationRouter, requestRouter, sseRouter, restRouter, chatRouter } from './routes/index.js';
 import { User, Topic, Message, Reservation, UserTopics, Request, Chat, UserChats } from './models/index.js';
 
@@ -15,6 +15,12 @@ const port = process.env.API_PORT || 4000;
 
 app.use(cors());
 app.use(json());
+
+// await User.create({
+//     email: faker.internet.email(),
+//     username: faker.name.fullName(),
+//     password: faker.internet.password()
+// });
 
 User.belongsToMany(Topic, { through: UserTopics });
 User.belongsToMany(Chat, { through: UserChats });
