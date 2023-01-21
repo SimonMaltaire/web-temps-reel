@@ -29,6 +29,7 @@ export const useUserTopicsStore = defineStore('user-topics', () => {
         try {
             const res = await _topicMembers(topicId);
             members.value = res;
+            return res;
         } catch (e) {
             throw e;
         }

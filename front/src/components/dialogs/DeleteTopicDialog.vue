@@ -4,7 +4,7 @@
         persistent
     >
         <template v-slot:activator="{ props }">
-            <v-list-item v-bind="props" color="danger">
+            <v-list-item v-bind="props" color="danger" prepend-icon="mdi-delete">
                 <v-list-item-title>Delete</v-list-item-title>
             </v-list-item>
         </template>

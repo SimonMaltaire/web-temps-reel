@@ -12,9 +12,6 @@ router.post('/:topicId', async (req, res) => {
     const topic = await Topic.findByPk(req.params.topicId);
     if (topic) {
         const topicMembers = await topic.getUsers();
-        if (topicMembers.length == topic.size) {
-            res.sendStatus(404);
-        }
         if (user) {
             await topic.addUser(user);
             await user.addTopic(topic);

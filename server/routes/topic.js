@@ -20,6 +20,8 @@ router.post('/', isAdmin, async (req, res) => {
 // GET Topic
 router.get('/:id', async (req, res) => {
     const topic = await Topic.findByPk(req.params.id);
+    const users = await topic.getUsers();
+    topic.dataValues.memberCount = Object.keys(users).length;
     if (topic) {
         res.send(topic).status(200);
     } else {
@@ -30,6 +32,10 @@ router.get('/:id', async (req, res) => {
 // GET Topics
 router.get('/', async (req, res) => {
     const topics = await Topic.findAll();
+    for (let topic of topics) {
+        const users = await topic.getUsers();
+        topic.dataValues.memberCount = Object.keys(users).length;
+    }
     res.send(topics).status(200);
 });
 
@@ -40,6 +46,8 @@ router.put('/:id', isAdmin, async (req, res) => {
         ...req.body
     });
     if (topic) {
+        const users = await topic.getUsers();
+        topic.dataValues.memberCount = Object.keys(users).length;
         res.send(topic).status(200);
     } else {
         res.sendStatus(400);

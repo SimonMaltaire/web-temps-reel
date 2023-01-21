@@ -18,8 +18,8 @@
             
             <v-card-text>
                 <v-form ref="form">
-                    <v-text-field v-model="topicName" type="text" placeholder="Topic name"></v-text-field>
-                    <v-text-field v-model="topicSize" type="number" placeholder="Topic size"></v-text-field>
+                    <v-text-field v-model="topicName" label="Topic name" type="text" placeholder="Topic name"></v-text-field>
+                    <v-text-field v-model="topicSize" label="Topic size" type="number" placeholder="Topic size"></v-text-field>
                 </v-form>
             </v-card-text>
                 

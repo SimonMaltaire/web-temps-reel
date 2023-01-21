@@ -10,7 +10,7 @@
                     :key="item.id"
                     :value="item"
                     active-color="primary"
-                    @click="navigateToTopic(item.id)"
+                    @click="navigateToTopic(item)"
                 >
     
                     <template v-slot:append>
@@ -33,7 +33,7 @@
                         </v-menu>
                     </template>
     
-                    <v-list-item-title v-text="item.name + '    /' + item.size">
+                    <v-list-item-title v-text="`${item.name} ${item.memberCount}/${item.size}`">
                     </v-list-item-title>
                 </v-list-item>
             </v-list>
@@ -52,6 +52,7 @@ import AddTopicDialog from './dialogs/AddTopicDialog.vue';
 import DeleteTopicDialog from './dialogs/DeleteTopicDialog.vue';
 import UpdateTopicDialog from './dialogs/UpdateTopicDialog.vue';
 import { createToast } from 'mosha-vue-toastify';
+import { create } from 'lodash';
 
 export default defineComponent({
     components: { AddTopicDialog, DeleteTopicDialog, UpdateTopicDialog },
@@ -62,17 +63,28 @@ export default defineComponent({
         const { topics } = storeToRefs(topicStore);
 
         const userTopicStore = useUserTopicsStore();
-        const { addUserToTopic } = userTopicStore;
+        const { addUserToTopic, topicMembers } = userTopicStore;
 
         const userStore = useUserStore();
-        const { isAdmin } = storeToRefs(userStore);
+        const { isAdmin, user } = storeToRefs(userStore);
 
         const showDeleteModal = ref<boolean>(false);
 
-        const navigateToTopic = async (topicId: string) => {
+        const navigateToTopic = async (topic: { id: string, memberCount: number, size: number }) => {
             try {
-                await addUserToTopic(topicId);
-                router.push({ name: 'room', params: { id: topicId }});
+                const members = await topicMembers(topic.id);
+                const isMemberOfTopic = members.find((u: any) => u.id === user.value.id);
+                if (isMemberOfTopic) {
+                    await addUserToTopic(topic.id);
+                    router.push({ name: 'room', params: { id: topic.id }});
+                } 
+                else if(topic.memberCount === topic.size) {
+                    createToast('This topic is at capacity, contact an admin to upgrade it\'s size', { type: 'info', position: 'bottom-right' });
+                    return;
+                } else {
+                    await addUserToTopic(topic.id);
+                    router.push({ name: 'room', params: { id: topic.id }});
+                }
             } catch (e) {
                 console.error(e);
             }
