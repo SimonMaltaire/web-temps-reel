@@ -97,7 +97,7 @@ export default defineComponent({
             leaveRoom(chat.value.id);
         });
 
-        return { leave, chat, message, sendMessage, formatDate, messages }
+        return { leave, chat, message, sendMessage, formatDate, messages, user }
     }
 })
 </script>

@@ -20,6 +20,12 @@ async function generateDummyUsers() {
         password: "password"
     });
 
+    await User.create({
+        email: "test2@testify.fr",
+        username: faker.name.fullName(),
+        password: "password"
+    });
+
     for (let i = 0; i < 20; i ++) {
         const users = await User.create({
             email: faker.internet.email(),

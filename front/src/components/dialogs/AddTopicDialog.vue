@@ -17,9 +17,9 @@
             </v-card-title>
             
             <v-card-text>
-                <v-form ref="form">
-                    <v-text-field v-model="topicName" label="Topic name" type="text" placeholder="Topic name"></v-text-field>
-                    <v-text-field v-model="topicSize" label="Topic size" type="number" placeholder="Topic size"></v-text-field>
+                <v-form v-model="valid" ref="form">
+                    <v-text-field v-model="topicName" :rules="[rules.required]" label="Topic name" type="text" placeholder="Topic name"></v-text-field>
+                    <v-text-field v-model="topicSize" :rules="[rules.required, rules.moreThanZero]" label="Topic size" type="number" placeholder="Topic size"></v-text-field>
                 </v-form>
             </v-card-text>
                 
@@ -58,16 +58,20 @@ export default defineComponent({
         const dialog = ref<boolean>(false);
         const topicName = ref<string>('');
         const topicSize = ref<number>(0);
+        const valid = ref<boolean>(false);
 
         const addTopic = async () => {
             try {
-                await createTopic({
-                    name: topicName.value,
-                    size: topicSize.value
-                });
-                reset();
-                createToast("Topic created", { type: 'success', position: 'bottom-right' });
-                dialog.value = false;
+                const { valid } = await form.value.validate();
+                if (valid) {
+                    await createTopic({
+                        name: topicName.value,
+                        size: topicSize.value
+                    });
+                    reset();
+                    createToast("Topic created", { type: 'success', position: 'bottom-right' });
+                    dialog.value = false;
+                }
             } catch (e) {
                 console.error(e);
                 createToast("Error while creating topic", { type: 'danger', position: 'bottom-right' });
@@ -75,11 +79,16 @@ export default defineComponent({
             }
         }
 
+        const rules = {
+            required: (v: any) => !!v || 'Value is required',
+            moreThanZero: (v: number) => v >= 0 || 'Value must be greater than 0'
+        }
+
         const reset = () => {
            form.value.reset()
         }
 
-        return { dialog, topicName, topicSize, addTopic, form, reset }
+        return { dialog, topicName, topicSize, addTopic, form, reset, rules, valid }
     }
 })
 </script>

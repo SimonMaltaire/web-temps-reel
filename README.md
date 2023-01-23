@@ -86,8 +86,14 @@ This command will drop the current data and generate new ones.
 email: admin@motocycle.com
 password: password
 ```
-### Client account
+### Client account1
 ```text
 email: test@testify.fr
+password: password
+```
+
+### Client account2
+```text
+email: test2@testify.fr
 password: password
 ```

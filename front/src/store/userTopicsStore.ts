@@ -4,13 +4,23 @@ import { userTopicsService } from '../service/api/index';
 
 export const useUserTopicsStore = defineStore('user-topics', () => {
     const members = ref([]);
+    const userTopics = ref([]);
 
-    const { _addUserToTopic, _removeUserFromTopic, _topicMembers } = userTopicsService;
+    const { _addUserToTopic, _removeUserFromTopic, _topicMembers, _getTopics } = userTopicsService;
 
     async function addUserToTopic(topicId: string) {
         try {
             const res = await _addUserToTopic(topicId);
             return res.data;
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    async function getUserTopics() {
+        try {
+            const res = await _getTopics();
+            userTopics.value = res;
         } catch (e) {
             throw e;
         }
@@ -36,5 +46,5 @@ export const useUserTopicsStore = defineStore('user-topics', () => {
     }
 
 
-    return { addUserToTopic, removeUserFromTopic, topicMembers, members }
+    return { addUserToTopic, removeUserFromTopic, topicMembers, members, getUserTopics, userTopics }
 });

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-btn @click="leave()" color="error" variant="outlined">Leave room</v-btn>
+        <v-btn v-if="!user.isAdmin" @click="leave()" color="error" variant="outlined">Leave room</v-btn>
 
         <v-list>
             <v-list-item v-for="message in messages" :key="message.id" class="pt-2">
@@ -104,7 +104,7 @@ export default defineComponent({
             leaveRoom(topic.value.id);
         });
 
-        return { leave, topic, message, sendMessage, members, messages, formatDate }
+        return { leave, topic, message, sendMessage, members, messages, formatDate, user }
     }
 })
 </script>

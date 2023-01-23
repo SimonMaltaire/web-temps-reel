@@ -30,6 +30,10 @@ router.get('/', async (req, res) => {
     const user = await User.findByPk(req.user.id);
     if (user) {
         const userTopics = await user.getTopics();
+        for (let topic of userTopics) {
+            const users = await topic.getUsers();
+            topic.dataValues.memberCount = Object.keys(users).length;
+        }
         res.send(userTopics).status(200);
     } else {
         res.sendStatus(404);
