@@ -2,16 +2,12 @@ version: '3.6'
 
 services:
   server:
-    image: "node:16"
     build:
       context: ./server
-      target: ${NODE_ENV}
       dockerfile: Dockerfile
     restart: always
-    user: "node"
     stdin_open: true
     tty: true
-    #entrypoint: ["npm", "run", "server"]
     env_file:
       - .env
     ports:
@@ -27,13 +23,11 @@ services:
   front:
     build:
       context: ./front
-      target: ${NODE_ENV}
       dockerfile: Dockerfile
     restart: always
     user: "node"
     stdin_open: true
     tty: true
-    #entrypoint: ["npm", "run", "${NODE_ENV}"]
     env_file:
       - .env
     ports:

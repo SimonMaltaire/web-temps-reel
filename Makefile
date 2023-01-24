@@ -1,13 +1,12 @@
-initialize-project: build-env build install
+initialize-project: build-env build install start-server start-front
 
 build:
 	docker-compose build --no-cache
 
 install:
 	docker-compose up -d
-	docker-compose exec server npm install
-	docker-compose exec front npm install
-	docker-compose down
+	docker-compose run -d server npm install
+	docker-compose run -d front npm install
 
 start:
 	docker-compose up -d
@@ -16,10 +15,10 @@ start-console:
 	docker-compose up
 
 start-server:
-	docker-compose exec server npm run server
+	docker-compose exec -d server npm run server
 
 start-front:
-	docker-compose exec front npm run dev
+	docker-compose exec -d front npm run dev
 
 stop:
 	docker-compose stop
