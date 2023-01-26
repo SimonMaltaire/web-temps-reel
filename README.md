@@ -2,8 +2,23 @@
 
 ## Getting start
 
-### Using Make Command
+### First use
 
+```
+#########################################################################
+# initialize-project: build-env build install start-server start-front  #
+#########################################################################
+# First install of the app                                              #
+# build-env - create the .env                                           #
+# install - build the docker, and execute npm install on both container #
+# start-server - execute npm run server command in container            #
+# start-front - execute npm run dev command in container                #
+#########################################################################
+
+make initialize-project
+```
+
+### 
 ### Other way
 
 #### Step 1 - Create .env file
