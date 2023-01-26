@@ -3,14 +3,19 @@ include .env
 initialize-project: #First use of the project, run all command needed to install your project and run it
 initialize-project: build-env install start-server start-front
 
+initialize-project-with-data: # First use of the project, run all command needed to install your project, run it and generate data
+initialize-project-with-data: build-env install start-server start-front generate-data
+
 install: #Build your docker container and install all dependencies
 install:
 	docker-compose up -d --build
 	docker-compose run -d server npm install
 	docker-compose run -d front npm install
 
-init:
-init:
+generate-data: # generate data in your project
+generate-data:
+	docker-compose exec server npm run seed
+
 start: #Docker-compose without verbose
 start:
 	docker-compose up -d

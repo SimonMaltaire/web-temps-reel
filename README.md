@@ -58,7 +58,26 @@ VITE_PORT=3000
 SECRET="secret_token"
 ```
 
-#### Step 2 - Docker Compose command
+#### Step 2
+```
+$ docker-compose up --build
+
+$ docker-compose run -d server npm install
+
+$ docker-compose run -d front npm install
+
+$ docker-compose exec -d server npm run server
+
+$ docker-compose exec -d front npm run dev
+
+# Optional - Command to generate data
+$ docker compose exec server npm run seed
+
+```
+
+You can now access to your app http://localhost:3000
+
+#### Docker Compose command
 
 #### Build Docker Image
 `docker-compose build --no-cache`
